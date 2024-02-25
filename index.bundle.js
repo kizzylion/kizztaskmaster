@@ -369,6 +369,7 @@ const testimg_namespaceObject = __webpack_require__.p + "images/testimg.png";
 
 
 
+
 var taskMaster = new Reminder();
 taskMaster.addDefaultGroupToGroups();
 taskMaster.addReminder("test note", "first test", new Date(), "firsttag", "low", 0);
@@ -552,7 +553,7 @@ console.log(taskMaster.displayReminder());
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [543], () => (__webpack_require__(855)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [877], () => (__webpack_require__(855)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
