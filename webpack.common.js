@@ -38,30 +38,22 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      template: "./src/index.html",
       title: "KizzTaskMaster App",
       favicon: "src/testimg.png",
       inject: "body",
-      //twitter AND FACEBOOK meta with images
       meta: {
-        twitterCardType: "summary_large_image",
-        twitterImage: "https://kizztaskmaster.com/testimg.png",
-        twitterTitle: "KizzTaskMaster App",
-        twitterDescription: "KizzTaskMaster App",
+        viewport: "width=device-width, initial-scale=1.0",
+        "og:title": "KizzTaskMaster App",
+        "og:description": "KizzTaskMaster App",
+        "og:image": "https://kizztaskmaster.com/testimg.png",
+        "og:type": "website",
+        "og:url": "https://kizztaskmaster.com",
+        "twitter:card": "summary_large_image",
+        "twitter:image": "https://kizztaskmaster.com/testimg.png",
+        "twitter:title": "KizzTaskMaster App",
+        "twitter:description": "KizzTaskMaster App",
       },
-
-      //twitter meta without images
-      // meta: {
-      //   twitterCardType: "summary",
-      //   twitterTitle: "KizzTaskMaster App",
-      //   twitterDescription: "KizzTaskMaster App",
-      // },
-
-      //facebook meta without images
-      // meta: {
-      //   facebookCardType: "summary",
-      //   facebookTitle: "KizzTaskMaster App",
-      //   facebookDescription: "KizzTaskMaster App",
-      // },
     }),
   ],
   optimization: {

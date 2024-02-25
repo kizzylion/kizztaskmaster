@@ -1,22 +1,21 @@
 import _ from "lodash";
 import "./style.css";
+import { Reminder } from "./reminder";
 import Icon from "./testimg.png";
 
-function component() {
-  const element = document.createElement("div");
 
-  // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = _.join(["Hello", "People"], " ");
-  element.classList.add("hello");
-  let description = `KizzTaskMaster App + ${Icon}`;
-
-  const myIcon = new Image;
-  myIcon.src = Icon;
-  element.appendChild(myIcon);
-  element.appendChild(description)
-
-
-  return element;
-}
-
-document.body.appendChild(component());
+const taskMaster = new Reminder();
+taskMaster.addDefaultGroupToGroups();
+taskMaster.addReminder(
+  "test note",
+  "first test",
+  new Date(),
+  "firsttag",
+  "low",
+  0
+);
+console.log(taskMaster.displayReminder());
+taskMaster.collection[0].setTag("secondtag");
+taskMaster.collection[0].toggleCompleted();
+taskMaster.collection[0].setGroupid(1);
+console.log(taskMaster.displayReminder());
