@@ -1,0 +1,1 @@
+{"version":3,"file":"index.4c825a0b16368b3bcf86.css","mappings":"AAAA,OAEI,mCADA,SAEJ","sources":["webpack://kizztaskmaster/./src/style.css"],"sourcesContent":[".hello {\n    color: red;\n    background: url('./testimg.png');\n}"],"names":[],"sourceRoot":""}
