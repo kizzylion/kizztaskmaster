@@ -1,5 +1,5 @@
 import _ from "lodash";
-import "./style.css";
+import "./style/style.css";
 import { Reminder } from "./reminder";
 import Icon from "./testimg.png";
 
