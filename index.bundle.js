@@ -1,10 +1,10 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 855:
+/***/ 259:
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
+"use strict";
 
 // EXTERNAL MODULE: ./node_modules/lodash/lodash.js
 var lodash = __webpack_require__(543);
@@ -362,12 +362,14 @@ var Reminder = /*#__PURE__*/function () {
   }]);
   return Reminder;
 }();
-;// CONCATENATED MODULE: ./src/testimg.png
-const testimg_namespaceObject = __webpack_require__.p + "images/testimg.png";
+// EXTERNAL MODULE: ./src/themescript.js
+var themescript = __webpack_require__(627);
 ;// CONCATENATED MODULE: ./src/index.js
 
 
 
+
+// import Icon from "./testimg.png";
 
 
 var taskMaster = new Reminder();
@@ -378,6 +380,44 @@ taskMaster.collection[0].setTag("secondtag");
 taskMaster.collection[0].toggleCompleted();
 taskMaster.collection[0].setGroupid(1);
 console.log(taskMaster.displayReminder());
+
+/***/ }),
+
+/***/ 627:
+/***/ (() => {
+
+var themeToggle = document.getElementById('theme-toggle');
+function systemIsDarkTheme() {
+  // Check if system preference is dark
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//Javascript to Toggle DarkModde
+themeToggle.addEventListener("click", function () {
+  var htmlElement = document.documentElement;
+  htmlElement.dataset.mode = htmlElement.dataset.mode === "dark" ? "light" : "dark";
+  var isDarkModeEnabled = htmlElement.dataset.mode === "dark";
+
+  // Update the data-mode attribute on the HTML element to reflect the current mode
+  document.documentElement.setAttribute("data-mode", isDarkModeEnabled ? "dark" : "light");
+  themeToggle.innerHTML = !isDarkModeEnabled ? '<i class="bi bi-sun text-yellow-500 text-xl"></i>' : '<i class="bi bi-moon text-slate-100 text-xl"></i>';
+});
+
+//Support system preference
+// Check on pageload if system preference is dark
+// If not, apply dark mode
+window.addEventListener('DOMContentLoaded', function () {
+  var htmlElement = document.documentElement;
+  var isDarkModeEnabled = systemIsDarkTheme();
+  console.log(isDarkModeEnabled);
+  // Update the data-mode attribute on the HTML element to reflect the current mode
+  htmlElement.setAttribute("data-mode", isDarkModeEnabled ? "dark" : "light");
+  themeToggle.innerHTML = isDarkModeEnabled ? '<i class="bi bi-moon fa-moon text-slate-100 text-xl"></i>' : '<i class="bi bi-sun text-yellow-500 text-xl"></i>';
+});
 
 /***/ })
 
@@ -472,29 +512,6 @@ console.log(taskMaster.displayReminder());
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/publicPath */
-/******/ 	(() => {
-/******/ 		var scriptUrl;
-/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
-/******/ 		var document = __webpack_require__.g.document;
-/******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
-/******/ 				scriptUrl = document.currentScript.src;
-/******/ 			if (!scriptUrl) {
-/******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) {
-/******/ 					var i = scripts.length - 1;
-/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
-/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
-/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
-/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
-/******/ 		__webpack_require__.p = scriptUrl;
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		// no baseURI
@@ -553,7 +570,7 @@ console.log(taskMaster.displayReminder());
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [877], () => (__webpack_require__(855)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [278], () => (__webpack_require__(259)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
