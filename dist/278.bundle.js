@@ -1,4 +1,4 @@
-(self["webpackChunkkizztaskmaster"] = self["webpackChunkkizztaskmaster"] || []).push([[877],{
+(self["webpackChunkkizztaskmaster"] = self["webpackChunkkizztaskmaster"] || []).push([[278],{
 
 /***/ 543:
 /***/ (function(module, exports, __webpack_require__) {
@@ -17210,4 +17210,4 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 /***/ })
 
 }]);
-//# sourceMappingURL=877.bundle.js.map
+//# sourceMappingURL=278.bundle.js.map

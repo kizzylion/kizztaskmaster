@@ -1,15 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1 class="text-3xl font-bold underline">
-       <i class="fas fa-check"></i> Hello world!
-    </h1>
-    
-    <P class="text-3xl font-bold underline">HELLO</P>
-</body>
+  </head>
+  <body class="bg-light-bg-primary dark:bg-dark-bg-primary text-light-text-tertiary dark:text-dark-text-tertiary flex max-w-screen-xl mx-auto h-dvh">
+    <nav id="Navigator" class="bg-gray-50 dark:bg-gray-900 w-full sm:w-4/12 md:w-3/12  h-full">
+      <header class="flex p-4">
+        <h1 class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">
+          KizzTask<span class="text-light-text-brand-tertiary dark:text-dark-text-brand-tertiary">Master</span>
+        </h1>
+        <button class="ml-auto px-1 py-0 hover:bg-light-bg-secondary-hover dark:hover:bg-dark-bg-secondary-hover dark:hover:bg-dark-bg-secondary-hover" id="theme-toggle"></button>
+      </header>
+      <section>
+        <div id="dashboard" class="w-full grid grid-cols-2 p-4 gap-4">
+          <div data-id="tab" class="p-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700  rounded-xl">
+            <div class="flex justify-between">
+              <span  class="p-2 grid place-content-center bg-dark-bg-secondary-solid dark:bg-light-fg-white-bg-secondary-solid rounded-full w-8 h-8"><i class="bi bi-inboxes-fill text-white text-base m-auto"></i></span>
+              <h3 class="ml-auto font-bold text-[1.125rem] text-light-text-primary dark:text-dark-text-primary ">1</h3>
+            </div>
+            <h4 class="text-light-text-tertiary dark:text-dark-text-tertiary mt-2 sm:text-[0.875rem]">All</h4>
+          </div>
+  
+          
+          <div data-id="tab" class="p-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700  rounded-xl">
+            <div class="flex justify-between">
+              <span  class="p-2 grid place-content-center bg-dark-bg-secondary-solid dark:bg-light-fg-white-bg-secondary-solid rounded-full w-8 h-8"><i class="bi bi-inboxes-fill text-white text-base m-auto"></i></span>
+              <h3 class="ml-auto font-bold text-[1.125rem] text-light-text-primary dark:text-dark-text-primary ">1</h3>
+            </div>
+            <h4 class="text-light-text-tertiary dark:text-dark-text-tertiary mt-2 sm:text-[0.875rem]">Today</h4>
+          </div>
+  
+          
+          <div data-id="tab" class="p-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700  rounded-xl">
+            <div class="flex justify-between">
+              <span  class="p-2 grid place-content-center bg-dark-bg-secondary-solid dark:bg-light-fg-white-bg-secondary-solid rounded-full w-8 h-8"><i class="bi bi-inboxes-fill text-white text-base m-auto"></i></span>
+              <h3 class="ml-auto font-bold text-[1.125rem] text-light-text-primary dark:text-dark-text-primary ">1</h3>
+            </div>
+            <h4 class="text-light-text-tertiary dark:text-dark-text-tertiary mt-2 sm:text-[0.875rem]">Priority</h4>
+          </div>
+  
+          
+          <div data-id="tab" class="p-2 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700  rounded-xl">
+            <div class="flex justify-between">
+              <span  class="p-2 grid place-content-center bg-dark-bg-secondary-solid dark:bg-light-fg-white-bg-secondary-solid rounded-full w-8 h-8"><i class="bi bi-inboxes-fill text-white text-base m-auto"></i></span>
+              <h3 class="ml-auto font-bold text-[1.125rem] text-light-text-primary dark:text-dark-text-primary ">1</h3>
+            </div>
+            <h4 class="text-light-text-tertiary dark:text-dark-text-tertiary mt-2 sm:text-[0.875rem]">Completed</h4>
+          </div>
+  
+        </div>
+        
+        <div id="task">
+          <header class="text-light-text-primary dark:text-dark-text-primary px-4 pb-2 font-bold"> Projects</header>
+
+        </div>
+      </section>
+    </nav>
+    <main class="hidden sm:visible p-4"></main>
+  </body>
 </html>

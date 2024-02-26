@@ -3,12 +3,12 @@
 @import 'tailwindcss/utilities';
 
 /* Your custom CSS styles */
-
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
 body {
-    color: red;
-    background: url('../testimg.png');
-}
-p{
-    color: blue;
+    
 }

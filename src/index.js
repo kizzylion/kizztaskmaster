@@ -1,8 +1,12 @@
 import _ from "lodash";
 import "./style/style.css";
 import { Reminder } from "./reminder";
-import Icon from "./testimg.png";
+import "./themescript.js"
+// import Icon from "./testimg.png";
 import '@fortawesome/fontawesome-free/css/all.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
 
 
 
