@@ -5,13 +5,12 @@ import { Task } from "./noteClass";
 export class Reminder {
     constructor() {
         this.collection = [];
-        this.groups = [];
+        this.groups = [
+            new Group("General", "General","bg-red-500"),
+        ];
     }
 
     //add a default  group to the groups
-    addDefaultGroupToGroups() {
-        this.groups.push(new Group("General", "blue"));
-    }
     
     addReminder(title, message, date, tag, priority, groupid) {
         this.collection.push(new Task(title, message, date, tag, priority, groupid));
@@ -27,8 +26,9 @@ export class Reminder {
     }
 
     //adds a new group to the collection
-    addGroup(groupname, groupcolor) {
-        this.collection.push(new Group(groupname, groupcolor));
+    addGroup(groupid,groupname, groupcolor) {
+        this.groups.push(new Group(groupid,groupname, groupcolor));
+        console.log(this.groups);
     }
 
     //gets a specific group by its name
@@ -78,6 +78,12 @@ export class Reminder {
 
     displayReminderByGroup(groupid) {
         return this.getGroupByName(groupid).collection;
+    }
+
+    updateGrouplist(){
+       let groupContainer = document.getElementById("taskgroups");
+       groupContainer.innerHTML = "";
+       this.groups.forEach(group => groupContainer.innerHTML += group.getGroupListHTML());
     }
 
 

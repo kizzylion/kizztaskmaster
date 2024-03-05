@@ -1,40 +1,14 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Your custom CSS styles */
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    
-        /* Hide the radio buttons */
-    input[type="radio"] {
-        display: none;
-    }
-
-    /* Style the labels to be clickable */
-    input[type="radio"] + label {
-        cursor: pointer;
-    }
-
-    /* Show the radio button when it's checked */
-    input[type="radio"]:checked + label {
-        font-weight: bold;
-        display: grid;
-    }
-
-    /* Create a hidden radio button and use it as a click target */
-    input[type="radio"] + label::before {
-        content: ""; /* Use a bullet character */
-        display: inline-block;
-        margin-right: 5px;
-    }
-
-    
-
-
+  
 }
