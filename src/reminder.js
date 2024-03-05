@@ -86,5 +86,4 @@ export class Reminder {
        this.groups.forEach(group => groupContainer.innerHTML += group.getGroupListHTML());
     }
 
-
 }

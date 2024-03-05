@@ -123,7 +123,7 @@ var Group = /*#__PURE__*/function () {
   }, {
     key: "getGroupListHTML",
     value: function getGroupListHTML() {
-      return "\n    <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ".concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.collection.length, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
+      return "\n    <li class=\"group cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ".concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.collection.length, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
     }
   }]);
   return Group;
@@ -418,6 +418,7 @@ function themeSwithcher() {
 ;// CONCATENATED MODULE: ./src/addgroup.js
 
 
+
 var selectedColor;
 function addGroupModal() {
   addGroupModalUi();
@@ -496,12 +497,12 @@ function addGroup() {
     alert("Please enter group name");
     return;
   }
-  taskMaster.groups.forEach(function (group) {
-    if (group.groupname === groupName) {
-      alert("Group already exists");
-      return;
-    }
-  });
+  if (taskMaster.groups.some(function (group) {
+    return group.groupname.toLowerCase() === groupName.toLowerCase();
+  })) {
+    alert("This Group already exists");
+    return;
+  }
   taskMaster.addGroup(generateGroupID(), groupName, selectedColor);
   var GroupModalElement = document.getElementById("GroupModalElement");
   taskMaster.updateGrouplist();
@@ -522,7 +523,6 @@ function generateGroupID() {
 
 
 
-// import Icon from "./testimg.png";
 
 
 

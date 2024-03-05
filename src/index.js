@@ -1,7 +1,6 @@
 import _ from "lodash";
 import "./style/style.css";
 import { Reminder } from "./reminder";
-// import Icon from "./testimg.png";
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { renderUi } from "./renderui.js";

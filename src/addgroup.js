@@ -1,5 +1,6 @@
 
 import { taskMaster } from ".";
+import { Group } from "./groupClass";
 import themeSwithcher from "./themescript";
 
 let selectedColor;
@@ -189,12 +190,10 @@ function addGroup() {
     return;
   }
 
-  taskMaster.groups.forEach((group) => {
-    if(group.groupname === groupName){
-      alert("Group already exists")
-      return;
-    }
-  })
+  if(taskMaster.groups.some((group)=>group.groupname.toLowerCase() === groupName.toLowerCase())){ 
+    alert("This Group already exists");
+    return;
+  }
 
   taskMaster.addGroup(generateGroupID(),groupName, selectedColor);
   const GroupModalElement = document.getElementById("GroupModalElement")
@@ -203,7 +202,6 @@ function addGroup() {
   showAddGroupModal();
   themeSwithcher()
   
-
 }
 
 
