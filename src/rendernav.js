@@ -180,6 +180,6 @@ export function renderNavUi(){
   </nav>
   <main class="hidden sm:flex flex-col bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 w-full sm:w-[55%] md:w-[64%] lg:w-[63%] xl:w-[79%] h-full relative"></main>
   </div>
-  <div id="GroupModalElement" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div id="GroupModalElement" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true"></div>
     `
 }
