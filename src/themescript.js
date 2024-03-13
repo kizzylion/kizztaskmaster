@@ -1,4 +1,6 @@
-export default function themeSwithcher() {
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+export default function themeSwitcher() {
   const themeToggle = document.getElementById("theme-toggle");
 
   function systemIsDarkTheme() {
@@ -13,35 +15,39 @@ export default function themeSwithcher() {
     }
   }
 
-  //Javascript to Toggle DarkModde
-  themeToggle.addEventListener("click", () => {
-    const htmlElement = document.documentElement;
-    htmlElement.dataset.mode =
-      htmlElement.dataset.mode === "dark" ? "light" : "dark";
-
-    const isDarkModeEnabled = htmlElement.dataset.mode === "dark";
+  function setThemeMode(mode) {
 
     // Update the data-mode attribute on the HTML element to reflect the current mode
-    document.documentElement.setAttribute(
-      "data-mode",
-      isDarkModeEnabled ? "dark" : "light"
-    );
+    document.documentElement.setAttribute("data-mode", mode);
 
-    themeToggle.innerHTML = !isDarkModeEnabled
-      ? '<i class="bi bi-sun text-yellow-500 text-xl"></i>'
-      : '<i class="bi bi-moon text-slate-100 text-xl"></i>';
+    themeToggle.innerHTML = mode === "dark"
+      ? '<i class="bi bi-moon text-slate-100 text-xl"></i>'
+      : '<i class="bi bi-sun text-yellow-500 text-xl"></i>';
+
+    // Save the theme mode preference to local storage
+    localStorage.setItem("themeMode", mode);
+  }
+
+  //Javascript to Toggle DarkMode
+  themeToggle.addEventListener("click", () => {
+    
+    let isDarkModeEnabled = document.documentElement.dataset.mode === "dark";
+
+    setThemeMode(isDarkModeEnabled ? "light" : "dark");
   });
 
   //Support system preference
   // Check on pageload if system preference is dark
   // If not, apply dark mode
   const htmlElement = document.documentElement;
-  const isDarkModeEnabled = systemIsDarkTheme();
-  console.log(isDarkModeEnabled);
-  // Update the data-mode attribute on the HTML element to reflect the current mode
-  htmlElement.setAttribute("data-mode", isDarkModeEnabled ? "dark" : "light");
+  let isDarkModeEnabled = systemIsDarkTheme();
+  const savedThemeMode = localStorage.getItem("themeMode");
 
-  themeToggle.innerHTML = isDarkModeEnabled
-    ? '<i class="bi bi-moon fa-moon text-slate-100 text-xl"></i>'
-    : '<i class="bi bi-sun text-yellow-500 text-xl"></i>';
+  // Use the saved theme mode if available, otherwise use system preference
+   const initialThemeMode = savedThemeMode !== null ? savedThemeMode : (isDarkModeEnabled ? "dark" : "light");
+  
+  // Set the theme mode
+  setThemeMode(initialThemeMode);
 }
+
+document.addEventListener("DOMContentLoaded", themeSwitcher);

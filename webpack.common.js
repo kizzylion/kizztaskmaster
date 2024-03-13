@@ -4,7 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: {
     index: "./src/index.js",
+    themescript: "./src/themescript.js",
     // print: "./src/print.js",
+  
   },
   output: {
     filename: "[name].bundle.js",

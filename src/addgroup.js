@@ -1,22 +1,27 @@
-
+import { renderNavUi } from "./rendernav";
+import { renderUi } from "./renderMainUi";
 import { taskMaster } from ".";
 import { Group } from "./groupClass";
-import themeSwithcher from "./themescript";
+
 
 let selectedColor;
 
 function addGroupModal() {
+  const GroupModalElement = document.getElementById("GroupModalElement");
   addGroupModalUi();
   groupIconColor();
+  GroupModalElement.classList.remove("hidden")
+  
 
   const addGroupBtn = document.getElementById("addgroupbtn");
   const closeGroupModal = document.getElementById("closegroupmodal");
-  const GroupModalElement = document.getElementById("GroupModalElement");
+  
   addGroupBtn.addEventListener("click", addGroup)
   closeGroupModal.addEventListener("click", () => {
-    document.body.removeChild(GroupModalElement)
-    showAddGroupModal();
-    themeSwithcher()
+    const GroupModalElement = document.querySelector("#GroupModalElement");
+    GroupModalElement.classList.add("hidden")
+    GroupModalElement.innerHTML = "";
+    
   })
 
 }
@@ -25,8 +30,8 @@ function addGroupModal() {
 const colorPickerMenu = document.getElementById("colorPickerMenu");
 
 function addGroupModalUi() {
-  document.querySelector("body").innerHTML += `
-    <div id="GroupModalElement" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  return document.querySelector("#GroupModalElement").innerHTML = `
+    
     <!--
       Background backdrop, show/hide based on modal state.
   
@@ -93,7 +98,6 @@ function addGroupModalUi() {
         </div>
       </div>
     </div>
-  </div>
     `;
 }
 
@@ -159,6 +163,9 @@ function addColorOptions() {
     event.classList.add("active");
     event.classList.add("bg-gray-500");
   }
+
+  setActiveColor(colorPicker[0]);
+  
   return selectedColor;
 }
 
@@ -198,9 +205,12 @@ function addGroup() {
   taskMaster.addGroup(generateGroupID(),groupName, selectedColor);
   const GroupModalElement = document.getElementById("GroupModalElement")
   taskMaster.updateGrouplist();
-  document.body.removeChild(GroupModalElement)
+  if (GroupModalElement) {
+    GroupModalElement.innerHTML = ""
+    GroupModalElement.classList.add("hidden")
+  }
   showAddGroupModal();
-  themeSwithcher()
+  
   
 }
 

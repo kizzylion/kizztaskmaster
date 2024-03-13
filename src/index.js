@@ -3,17 +3,17 @@ import "./style/style.css";
 import { Reminder } from "./reminder";
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { renderUi } from "./renderui.js";
+import { renderUi } from "./renderMainUi.js";
 import { showAddGroupModal } from "./addgroup.js";
-import themeSwitcher from "./themescript.js"
+import { renderNavUi } from "./rendernav.js";
 
 
 
 
-
+renderNavUi()
 renderUi()
-themeSwitcher()
 showAddGroupModal()
+
 
 
 
