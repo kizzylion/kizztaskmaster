@@ -244,6 +244,13 @@ var Task = /*#__PURE__*/function () {
         groupid: this.groupid
       };
     }
+  }, {
+    key: "getTaskHTML",
+    value: function getTaskHTML() {
+      var div = document.createElement('div');
+      div.innerHTML = "\n            <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n            <div>\n            <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n            </div>\n            <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n                <div class=\"flex gap-x-2\">\n                <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">".concat(this.title, "</h3>\n                <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n                </div>\n                <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">").concat(this.message, "</p>\n                <div class=\"flex\">\n                <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: ").concat(this.date, "</span>\n                <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">").concat(this.tag, "</span>\n                <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n                <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n            \n                </div>\n    \n            </div>\n    \n            </div>\n        ");
+      return div;
+    }
   }]);
   return Task;
 }();
@@ -259,7 +266,7 @@ function reminder_toPrimitive(t, r) { if ("object" != reminder_typeof(t) || !t) 
 var Reminder = /*#__PURE__*/function () {
   function Reminder() {
     reminder_classCallCheck(this, Reminder);
-    this.collection = [];
+    this.collection = [new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
     this.groups = [new Group("General", "General", "bg-red-500"), new Group("Personal", "Personal", "bg-blue-500"), new Group("Work", "Work", "bg-green-500")];
   }
 
@@ -366,12 +373,34 @@ var Reminder = /*#__PURE__*/function () {
       return this.getGroupByName(groupid).collection;
     }
   }, {
+    key: "noTaskUi",
+    value: function noTaskUi() {
+      var div = document.createElement("div");
+      div.innerHTML = "\n            <div id=\"no-tasks\" class=\"flex-col w-full text-center mt-16 justify-items-center\">\n            <p class=\"text-base text-gray-400 dark:text-gray-400 font-medium\">No tasks found</p>\n            <p class=\"text-base text-gray-400 dark:text-gray-400 font-normal\">Add a task to get started</p>\n        </div>\n        ";
+      return div;
+    }
+  }, {
     key: "updateGrouplist",
     value: function updateGrouplist() {
       var groupContainer = document.getElementById("taskgroups");
       groupContainer.innerHTML = "";
       this.groups.forEach(function (group) {
         groupContainer.insertAdjacentHTML('beforeend', group.getGroupListHTML());
+      });
+    }
+  }, {
+    key: "updateTasklist",
+    value: function updateTasklist() {
+      var taskContainer = document.getElementById("tasklist");
+      taskContainer.innerHTML = "";
+      console.log(this.collection);
+      if (this.collection.length === 0) {
+        taskContainer.innerHTML = "";
+        taskContainer.appendChild(this.noTaskUi());
+        return;
+      }
+      this.collection.forEach(function (task) {
+        taskContainer.appendChild(task.getTaskHTML());
       });
     }
   }, {
@@ -688,12 +717,14 @@ function getSelectedPriority() {
 
 
 
+var reminder = new Reminder();
 renderNavUi();
 renderUi();
 showAddGroupModal();
 showTaskModal(2);
-var taskMaster = new Reminder();
+var taskMaster = reminder;
 taskMaster.updateGrouplist();
+taskMaster.updateTasklist();
 
 /***/ })
 
