@@ -1,21 +1,64 @@
-
 import { renderNavUi } from "./rendernav";
 import { renderUi } from "./renderMainUi";
 import { taskMaster } from ".";
 
 import { Group } from "./groupClass";
 import { datePickerUi } from "./components/datepicker";
-import {datepicker} from "./components/datepicker";
+import { datepicker } from "./components/datepicker";
+import { selectmenuboxui } from "./components/selectmenu";
+import { selectOptionUi } from "./components/selectmenu";
+import { selectoption } from "./components/selectmenu";
+import { toggleListbox } from "./components/selectmenu";
 
-function dateSection(){
+
+let selectedid = null; //Group Selected
+let priority = null;
+
+
+
+function dateSection() {
   const dateDiv = document.getElementById("datesection");
-  console.log(dateDiv)
-  dateDiv.appendChild(datePickerUi())
-  datepicker()
+  dateDiv.appendChild(datePickerUi());
+  datepicker();
 }
 
-function addTaskModalUi(){
-    return document.querySelector("#GroupModalElement").innerHTML = `
+function groupsection(group) {
+  const groupDiv = document.getElementById("groupsection");
+  const groups = taskMaster.getGroup();
+  groupDiv.innerHTML = "";
+  groupDiv.appendChild(selectmenuboxui(group));
+  selectedid = group.getGroupid();
+  
+
+  const listoptionsDiv = document.getElementById("listoptions");
+
+  groups.forEach((group) => {
+    listoptionsDiv.appendChild(selectOptionUi(group));
+  });
+  const options = listoptionsDiv.querySelectorAll("[role=option]");
+
+  // Add event listener for the select menu
+  options.forEach((option) => {
+    option.addEventListener("click", function () {
+      selectedid = selectoption(this);
+      console.log("new sid: ", selectedid);
+      let newSelectedGroup = taskMaster.getGroup().filter(
+        (g) => g.getGroupid() === selectedid
+      )[0];
+      groupsection(newSelectedGroup)
+      
+    });
+  });
+
+
+  const selectGroupmenu = document.querySelector("#listbox");
+  selectGroupmenu.addEventListener("click", toggleListbox);
+
+  
+}
+
+function addTaskModalUi() {
+  return (document.querySelector("#GroupModalElement").innerHTML = `
     <div
       id="GroupModalElement"
       class="relative z-10"
@@ -85,7 +128,7 @@ function addTaskModalUi(){
                               id="taskName"
                               type="text"
                               placeholder="Enter Task"
-                              class="appearance-none text-center mb-4 w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required"
+                              class="appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required"
                             />
 
                             <label
@@ -97,7 +140,7 @@ function addTaskModalUi(){
                               id="taskNote"
                               type="text"
                               placeholder="Enter a note"
-                              class="appearance-none text-center mb-4 w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required"
+                              class="appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required"
                             />
 
                             <div class="flex gap-3 w-full">
@@ -124,6 +167,7 @@ function addTaskModalUi(){
                                   class="hidden peer/low"
                                   type="radio"
                                   name="priority"
+                                  value="low"
                                 />
                                 <label
                                   for="low"
@@ -136,6 +180,7 @@ function addTaskModalUi(){
                                   class="hidden peer/medium"
                                   type="radio"
                                   name="priority"
+                                  value="medium"
                                 />
                                 <label
                                   for="medium"
@@ -148,10 +193,11 @@ function addTaskModalUi(){
                                   class="hidden peer/high"
                                   type="radio"
                                   name="priority"
+                                  value="high"
                                 />
                                 <label
                                   for="high"
-                                  class="mr-2 peer-checked/high:ring-red-700/10 dark:peer-checked:/high:ring-red-200/20 peer-checked/high:bg-red-50 dark:peer-checked/high:bg-red-900 peer-checked/high:text-red-600 dark:peer-checked/high:text-red-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10"
+                                  class="mr-2 peer-checked/high:ring-red-700/10 dark:peer-checked/high:ring-red-200/20 peer-checked/high:bg-red-50 dark:peer-checked/high:bg-red-900 peer-checked/high:text-red-600 dark:peer-checked/high:text-red-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10"
                                   >High</label
                                 >
                               </div>
@@ -162,153 +208,19 @@ function addTaskModalUi(){
                               class="text-start mb-1 text-gray-900 font-medium dark:text-gray-50"
                               >Select Group:
                             </label>
-                            <div class="relative mt-2">
-                              <button
-                                type="button"
-                                id="listbox"
-                                class="relative w-full cursor-default rounded-lg bg-white dark:bg-gray-700 py-1.5 pl-4 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                                aria-haspopup="listbox"
-                                aria-expanded="false"
-                                aria-labelledby="listbox-label"
-                              >
-                                <span class="flex items-center">
-                                  <span
-                                  id="optionicon"
-                                    class="p-2 grid place-content-center bg-red-500 rounded-full w-6 h-6 lg:w-6 lg:h-6"
-                                  >
-                                    <i
-                                      class="bi bi-list-ul text-white text-sm m-auto"
-                                    ></i>
-                                  </span>
-
-                                  <span
-                                    id="optiontext"
-                                    class="ml-3 block text-gray-600 dark:text-gray-100 truncate"
-                                    >General</span
-                                  >
-                                </span>
-                                <span
-                                  class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
-                                >
-                                  <i
-                                    class="bi bi-chevron-down text-gray-400 mr-0.5"
-                                  ></i>
-                                </span>
-                              </button>
-
-                              <!--
-                              Select popover, show/hide based on select state.
-
-                              Entering: ""
-                                From: ""
-                                To: ""
-                              Leaving: "transition ease-in duration-100"
-                                From: "opacity-100"
-                                To: "opacity-0"
-                            -->
-
-                              <ul
-                                id="listoptions"
-                                class="hidden absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm sm:leading-6"
-                                role="listbox"
-                                tabindex="-1"
-                                aria-labelledby="listbox-label"
-                                aria-activedescendant="listbox-option-0"
-                              >
-                                <!-- Dropdown menu -->
-
-                                <!--
-                                Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-
-                                Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900"
-                              -->
-
-                                <li
-                                  class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
-                                  id="listbox-option-0"
-                                  role="option"
-                                >
-                                  <div class="flex items-center">
-                                    <span
-
-                                      class=" p-2 grid place-content-center rounded-full w-6 h-6 lg:w-6 lg:h-6"
-                                    >
-                                      <i
-                                        class="bi bi-list-ul text-white text-sm m-auto"
-                                      ></i>
-                                    </span>
-
-                                    <span class="ml-3 block truncate"
-                                      >General</span
-                                    >
-                                  </div>
-
-                                  <!--
-                                  Checkmark, only display for selected option.
-
-                                  Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                                -->
-                                  <span
-                                    class="hidden highlightedEl text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4"
-                                  >
-                                    <svg
-                                      class="h-5 w-5"
-                                      viewBox="0 0 20 20"
-                                      fill="currentColor"
-                                      aria-hidden="true"
-                                    >
-                                      <path
-                                        fill-rule="evenodd"
-                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                        clip-rule="evenodd"
-                                      />
-                                    </svg>
-                                  </span>
-                                </li>
-                                <li
-                                  class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
-                                  id="listbox-option-1"
-                                  role="option"
-                                >
-                                  <div class="flex items-center">
-                                    <span
-                                      class="p-2 grid place-content-center bg-blue-500 rounded-full w-6 h-6 lg:w-6 lg:h-6"
-                                    >
-                                      <i
-                                        class="bi bi-list-ul text-white text-sm m-auto"
-                                      ></i>
-                                    </span>
-
-                                    <span class="ml-3 block truncate"
-                                      >test 2</span
-                                    >
-                                  </div>
-
-                                  <!--
-                                  Checkmark, only display for selected option.
-
-                                  Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                                -->
-                                  <span
-                                    class="hidden highlightedEl text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4"
-                                  >
-                                    <svg
-                                      class="h-5 w-5"
-                                      viewBox="0 0 20 20"
-                                      fill="currentColor"
-                                      aria-hidden="true"
-                                    >
-                                      <path
-                                        fill-rule="evenodd"
-                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                        clip-rule="evenodd"
-                                      />
-                                    </svg>
-                                  </span>
-                                </li>
-                              </ul>
-                            </div>
-
+                            <div id="groupsection" class="w-full"></div>
+                            
+                            <label
+                              for="tag"
+                              class="text-start mb-1 mt-2 text-gray-900 font-medium dark:text-gray-50"
+                              >tag:
+                            </label>
+                            <input
+                              id="tag"
+                              type="text"
+                              placeholder="Add Tags"
+                            class="appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required"
+                            />
                           </div>
                         </div>
                       </div>
@@ -339,35 +251,68 @@ function addTaskModalUi(){
         </div>
       </div>
     </div>
-    `
+    `);
 }
 
-export function showTaskModal() {
-    const newTaskBtn = document.querySelectorAll(
-      '[data-element="newtask"]'
-    );
-  
-  
-    newTaskBtn.forEach((btn) => {
-      btn.addEventListener("click", addTaskModal);
-    });
-}
 
-function addTaskModal(){
+function addTaskModal(toGroup) {
   const GroupModalElement = document.getElementById("GroupModalElement");
   GroupModalElement.innerHTML = "";
   addTaskModalUi();
-  dateSection()
-  GroupModalElement.classList.remove("hidden")
+  dateSection();
+  groupsection(taskMaster.getGroup()[toGroup]);
+  GroupModalElement.classList.remove("hidden");
 
   const addTaskBtn = document.getElementById("addTaskbtn");
   const closeModalBtn = document.getElementById("closemodal");
 
-  // addTaskBtn.addEventListener("click", addTask);
+  addTaskBtn.addEventListener("click", addTask);
   closeModalBtn.addEventListener("click", () => {
     GroupModalElement.classList.add("hidden");
     GroupModalElement.innerHTML = "";
-  })
+  });
 }
 
 
+
+export function showTaskModal(toGroup) {
+  const newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
+  
+  newTaskBtn.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      addTaskModal(toGroup);
+    });
+  });
+}
+
+
+function addTask(){
+  const groupId = selectedid;
+  const name = document.getElementById("taskName").value;
+  const note = document.getElementById("taskNote").value;
+  const duedate = document.getElementById("datepicker").value;
+  const selectedPriority = document.querySelector('input[name="priority"]:checked');
+  let priority;
+  
+  (selectedPriority) ? priority = selectedPriority.value : priority = "";
+  
+
+  console.log("Group id: ", selectedid,
+    "Due-date: ", duedate, 
+    "Priority: ", priority
+  )
+}
+
+function getSelectedPriority() {
+  // Select the checked radio button
+  const selectedPriority = document.querySelector('input[name="priority"]:checked');
+
+  // Check if any radio button is selected
+  if (selectedPriority) {
+      // Retrieve the value of the selected radio button
+      const priorityValue = selectedPriority.value;
+      console.log("Selected priority:", priorityValue);
+  } else {
+      console.log("No priority selected");
+  }
+}

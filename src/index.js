@@ -13,21 +13,13 @@ import { showTaskModal } from "./addTask.js";
 renderNavUi()
 renderUi()
 showAddGroupModal()
-showTaskModal()
+showTaskModal(2)
 
 
 
 
 
 export const taskMaster = new Reminder();
-taskMaster.addReminder(
-  "test note",
-  "first test",
-  new Date(),
-  "firsttag",
-  "low",
-  0
-);
+
 taskMaster.updateGrouplist();
-console.log(taskMaster.displayReminder());
-console.log(taskMaster.groups)
+

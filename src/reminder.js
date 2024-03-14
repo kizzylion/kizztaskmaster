@@ -7,6 +7,8 @@ export class Reminder {
         this.collection = [];
         this.groups = [
             new Group("General", "General","bg-red-500"),
+            new Group("Personal", "Personal","bg-blue-500"),
+            new Group("Work", "Work","bg-green-500")
         ];
     }
 
@@ -80,10 +82,18 @@ export class Reminder {
         return this.getGroupByName(groupid).collection;
     }
 
-    updateGrouplist(){
-       let groupContainer = document.getElementById("taskgroups");
-       groupContainer.innerHTML = "";
-       this.groups.forEach(group => groupContainer.innerHTML += group.getGroupListHTML());
+    updateGrouplist() {
+        let groupContainer = document.getElementById("taskgroups");
+        groupContainer.innerHTML = "";
+    
+        this.groups.forEach(group => {
+            groupContainer.insertAdjacentHTML('beforeend', group.getGroupListHTML());
+        });
     }
+
+    getGroup(){
+        return this.groups
+    }
+    
 
 }

@@ -210,6 +210,7 @@ function addGroup() {
     GroupModalElement.innerHTML = ""
     GroupModalElement.classList.add("hidden")
   }
+
   showAddGroupModal();
   
   

@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 379:
+/***/ 836:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -260,7 +260,7 @@ var Reminder = /*#__PURE__*/function () {
   function Reminder() {
     reminder_classCallCheck(this, Reminder);
     this.collection = [];
-    this.groups = [new Group("General", "General", "bg-red-500")];
+    this.groups = [new Group("General", "General", "bg-red-500"), new Group("Personal", "Personal", "bg-blue-500"), new Group("Work", "Work", "bg-green-500")];
   }
 
   //add a default  group to the groups
@@ -371,8 +371,13 @@ var Reminder = /*#__PURE__*/function () {
       var groupContainer = document.getElementById("taskgroups");
       groupContainer.innerHTML = "";
       this.groups.forEach(function (group) {
-        return groupContainer.innerHTML += group.getGroupListHTML();
+        groupContainer.insertAdjacentHTML('beforeend', group.getGroupListHTML());
       });
+    }
+  }, {
+    key: "getGroup",
+    value: function getGroup() {
+      return this.groups;
     }
   }]);
   return Reminder;
@@ -509,6 +514,77 @@ var datepicker = function datepicker() {
   new Datepicker/* default */.A(datepickerEl);
 };
 
+;// CONCATENATED MODULE: ./src/components/selectmenu.js
+function selectmenuboxui(group) {
+  var div = document.createElement("div");
+  div.innerHTML = "\n    <div class=\"relative mt-2\">\n    <button\n      type=\"button\"\n      id=\"listbox\"\n      class=\"relative w-full cursor-default rounded-lg bg-white dark:bg-gray-700 py-1.5 pl-4 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6\"\n      aria-haspopup=\"listbox\"\n      aria-expanded=\"false\"\n      aria-labelledby=\"listbox-label\"\n      aria-activedescendant=\"".concat(group.getGroupid(), "\"\n    >\n      <span class=\"flex items-center\">\n        <span\n        id=\"optionicon\"\n          class=\" p-2 grid place-content-center ").concat(group.getGroupcolor(), " rounded-full w-6 h-6 lg:w-6 lg:h-6\"\n        >\n          <i\n            class=\"bi bi-list-ul text-white text-sm m-auto\"\n          ></i>\n        </span>\n\n        <span\n          id=\"optiontext\"\n          class=\"ml-3 block text-gray-600 dark:text-gray-100 truncate\"\n          >").concat(group.getGroupname(), "</span\n        >\n      </span>\n      <span\n        class=\"pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2\"\n      >\n        <i\n          class=\"bi bi-chevron-down text-gray-400 mr-0.5\"\n        ></i>\n      </span>\n    </button>\n\n    <!--\n    Select popover, show/hide based on select state.\n\n    Entering: \"\"\n      From: \"\"\n      To: \"\"\n    Leaving: \"transition ease-in duration-100\"\n      From: \"opacity-100\"\n      To: \"opacity-0\"\n  -->\n\n    <ul\n      id=\"listoptions\"\n      class=\"hidden absolute z-10 mt-1 max-h-20 w-full overflow-auto rounded-md bg-white dark:bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm sm:leading-6\"\n      role=\"listbox\"\n      tabindex=\"-1\"\n      aria-labelledby=\"listbox-label\"\n      aria-activedescendant=\"").concat(group.getGroupid(), "\"\n    >\n      <!-- Dropdown menu -->\n\n      <!--\n      Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.\n\n      Highlighted: \"bg-indigo-600 text-white\", Not Highlighted: \"text-gray-900\"\n    -->\n\n      \n      \n    </ul>\n  </div>\n    ");
+  return div;
+}
+function selectOptionUi(group) {
+  var list = document.createElement("li");
+  list.classList.add("text-gray-900", "dark:text-gray-100", "cursor-default", "select-none", "relative", "py-2", "pl-3", "pr-9");
+  list.id = "".concat(group.getGroupid());
+  list.setAttribute("role", "option");
+  list.innerHTML = "\n    <div class=\"flex items-center\">\n      <span\n        id=\"optionicon\"\n        class=\"".concat(group.getGroupcolor(), " p-2 grid place-content-center rounded-full w-6 h-6 lg:w-6 lg:h-6\"\n      >\n        <i\n          class=\"bi bi-list-ul text-white text-sm m-auto\"\n        ></i>\n      </span>\n\n      <span class=\"ml-3 block truncate\"\n        >").concat(group.getGroupname(), "</span\n      >\n    </div>\n\n    <!--\n    Checkmark, only display for selected option.\n\n    Highlighted: \"text-white\", Not Highlighted: \"text-indigo-600\"\n  -->\n    <span\n      class=\"hidden highlightedEl text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4\"\n    >\n      <svg\n        class=\"h-5 w-5\"\n        viewBox=\"0 0 20 20\"\n        fill=\"currentColor\"\n        aria-hidden=\"true\"\n      >\n        <path\n          fill-rule=\"evenodd\"\n          d=\"M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z\"\n          clip-rule=\"evenodd\"\n        />\n      </svg>\n    </span>\n  </li>\n    ");
+  return list;
+}
+function toggleListbox() {
+  var isExpanded = listbox.getAttribute("aria-expanded") === "true";
+  var change = !isExpanded ? true : false;
+  listbox.setAttribute("aria-expanded", change);
+  if (!isExpanded) {
+    listoptions.classList.remove("hidden");
+    listoptions.classList.add('transition', 'ease-in', 'duration-100', 'opacity-100');
+    var isHighlighted = listbox.getAttribute("aria-activedescendant") === "listbox-option-0";
+    var options = listoptions.querySelectorAll("[role=option]");
+    options.forEach(function (option) {
+      option.addEventListener("mouseenter", focusin);
+      option.addEventListener("mouseleave", focusout);
+    });
+  } else {
+    listoptions.removeAttribute("aria-activedescendant");
+    listoptions.classList.remove("transition", "ease-in", "duration-100", "hidden");
+    listoptions.classList.add("transition", "ease-in", "duration-0", "opacity-0", "hidden");
+  }
+}
+
+// manage keyboard navigation of the options
+
+function focusin() {
+  this.classList.remove("text-gray-900");
+  this.classList.add("bg-indigo-500", "text-white", "dark:bg-indigo-600");
+}
+
+//manage highlight styles based on mouseenter/mouseleave
+
+function focusout() {
+  this.classList.remove("bg-indigo-500", "text-white", "dark:bg-indigo-600");
+  this.classList.add("text-gray-900");
+}
+
+//when user selects an option
+
+function selectoption(e) {
+  var listbox = document.getElementById("listbox");
+  var listoptions = document.querySelector("#listoptions");
+  var selectedid = e.id;
+  console.log(selectedid);
+  var selected = document.getElementById(selectedid);
+  listbox.setAttribute("aria-activedescendant", selectedid);
+  listoptions.setAttribute("aria-activedescendant", selectedid);
+
+  // selected.classList.add("bg-indigo-600", "text-white");
+  // selected.classList.remove("text-gray-900");
+
+  toggleListbox();
+  return selectedid;
+}
+
+// update listbox ui based on selected option
+
+function selectedoption() {
+  return listoptions.getAttribute("aria-activedescendant");
+}
 ;// CONCATENATED MODULE: ./src/addTask.js
 
 
@@ -516,35 +592,91 @@ var datepicker = function datepicker() {
 
 
 
+
+
+
+
+var selectedid = null; //Group Selected
+var priority = null;
 function dateSection() {
   var dateDiv = document.getElementById("datesection");
-  console.log(dateDiv);
   dateDiv.appendChild(datePickerUi());
   datepicker();
 }
-function addTaskModalUi() {
-  return document.querySelector("#GroupModalElement").innerHTML = "\n    <div\n      id=\"GroupModalElement\"\n      class=\"relative z-10\"\n      aria-labelledby=\"modal-title\"\n      role=\"dialog\"\n      aria-modal=\"true\"\n    >\n      <!--\n      Background backdrop, show/hide based on modal state.\n  \n      Entering: \"ease-out duration-300\"\n        From: \"opacity-0\"\n        To: \"opacity-100\"\n      Leaving: \"ease-in duration-200\"\n        From: \"opacity-100\"\n        To: \"opacity-0\"\n    -->\n      <div\n        class=\"fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity\"\n      ></div>\n\n      <div class=\"fixed inset-0 z-10 w-screen overflow-y-auto\">\n        <div\n          class=\"flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0\"\n        >\n          <!--\n          Modal panel, show/hide based on modal state.\n  \n          Entering: \"ease-out duration-300\"\n            From: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n            To: \"opacity-100 translate-y-0 sm:scale-100\"\n          Leaving: \"ease-in duration-200\"\n            From: \"opacity-100 translate-y-0 sm:scale-100\"\n            To: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n        -->\n          <div\n            class=\"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg\"\n          >\n            <div\n              class=\"bg-white dark:bg-gray-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4\"\n            >\n              <div class=\"sm:flex sm:items-start\">\n                <div\n                  class=\"mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full\"\n                >\n                  <h3\n                    class=\"font-bold leading-6 text-center text-gray-700 dark:text-gray-50\"\n                    id=\"modal-title\"\n                  >\n                    Add New Task\n                  </h3>\n\n                  <div class=\"antialiased mt-2\">\n                    <!-- select color -->\n                    <div class=\"max-w-sm mx-auto py-8\">\n                      <div class=\"mb-5\">\n                        <div class=\"flex flex-col items-center w-full\">\n                          <div\n                            class=\"w-full flex flex-col bg-gray-50 dark:bg-gray-800 rounded-md shadow-sm p-4\"\n                          >\n                            <label\n                              for=\"taskName\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Task:\n                            </label>\n                            <input\n                              id=\"taskName\"\n                              type=\"text\"\n                              placeholder=\"Enter Task\"\n                              class=\"appearance-none text-center mb-4 w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\"\n                            />\n\n                            <label\n                              for=\"taskNote\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Note:\n                            </label>\n                            <input\n                              id=\"taskNote\"\n                              type=\"text\"\n                              placeholder=\"Enter a note\"\n                              class=\"appearance-none text-center mb-4 w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\"\n                            />\n\n                            <div class=\"flex gap-3 w-full\">\n                              <div id=\"datesection\" class=\"w-2/5 flex flex-col\">\n                                <label\n                                  for=\"datepicker\"\n                                  class=\"w-100 text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                                  >Date:\n                                </label>\n                                \n                              </div>\n\n                              <div\n                                class=\"flex items-center w-3/5 flex-wrap mb-4\"\n                              >\n                                <label\n                                  for=\"priority\"\n                                  class=\"w-full text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                                  >Priority:\n                                </label>\n\n                                <input\n                                  id=\"low\"\n                                  class=\"hidden peer/low\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                />\n                                <label\n                                  for=\"low\"\n                                  class=\"mr-2  dark:peer-checked/low:ring-indigo-200/20  peer-checked/low:bg-indigo-50 dark:peer-checked/low:bg-indigo-900 peer-checked/low:text-indigo-600 dark:peer-checked/low:text-indigo-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >Low</label\n                                >\n\n                                <input\n                                  id=\"medium\"\n                                  class=\"hidden peer/medium\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                />\n                                <label\n                                  for=\"medium\"\n                                  class=\" mr-2 peer-checked/medium:ring-yellow-700/10 dark:peer-checked/medium:ring-yellow-200/20  peer-checked/medium:bg-yellow-50 dark:peer-checked/medium:bg-yellow-900 peer-checked/medium:text-yellow-600 dark:peer-checked/medium:text-yellow-500  inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >Medium</label\n                                >\n\n                                <input\n                                  id=\"high\"\n                                  class=\"hidden peer/high\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                />\n                                <label\n                                  for=\"high\"\n                                  class=\"mr-2 peer-checked/high:ring-red-700/10 dark:peer-checked:/high:ring-red-200/20 peer-checked/high:bg-red-50 dark:peer-checked/high:bg-red-900 peer-checked/high:text-red-600 dark:peer-checked/high:text-red-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >High</label\n                                >\n                              </div>\n                            </div>\n\n                            <label\n                              for=\"Group\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Select Group:\n                            </label>\n                            <div class=\"relative mt-2\">\n                              <button\n                                type=\"button\"\n                                id=\"listbox\"\n                                class=\"relative w-full cursor-default rounded-lg bg-white dark:bg-gray-700 py-1.5 pl-4 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6\"\n                                aria-haspopup=\"listbox\"\n                                aria-expanded=\"false\"\n                                aria-labelledby=\"listbox-label\"\n                              >\n                                <span class=\"flex items-center\">\n                                  <span\n                                  id=\"optionicon\"\n                                    class=\"p-2 grid place-content-center bg-red-500 rounded-full w-6 h-6 lg:w-6 lg:h-6\"\n                                  >\n                                    <i\n                                      class=\"bi bi-list-ul text-white text-sm m-auto\"\n                                    ></i>\n                                  </span>\n\n                                  <span\n                                    id=\"optiontext\"\n                                    class=\"ml-3 block text-gray-600 dark:text-gray-100 truncate\"\n                                    >General</span\n                                  >\n                                </span>\n                                <span\n                                  class=\"pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2\"\n                                >\n                                  <i\n                                    class=\"bi bi-chevron-down text-gray-400 mr-0.5\"\n                                  ></i>\n                                </span>\n                              </button>\n\n                              <!--\n                              Select popover, show/hide based on select state.\n\n                              Entering: \"\"\n                                From: \"\"\n                                To: \"\"\n                              Leaving: \"transition ease-in duration-100\"\n                                From: \"opacity-100\"\n                                To: \"opacity-0\"\n                            -->\n\n                              <ul\n                                id=\"listoptions\"\n                                class=\"hidden absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm sm:leading-6\"\n                                role=\"listbox\"\n                                tabindex=\"-1\"\n                                aria-labelledby=\"listbox-label\"\n                                aria-activedescendant=\"listbox-option-0\"\n                              >\n                                <!-- Dropdown menu -->\n\n                                <!--\n                                Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.\n\n                                Highlighted: \"bg-indigo-600 text-white\", Not Highlighted: \"text-gray-900\"\n                              -->\n\n                                <li\n                                  class=\"text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9\"\n                                  id=\"listbox-option-0\"\n                                  role=\"option\"\n                                >\n                                  <div class=\"flex items-center\">\n                                    <span\n\n                                      class=\" p-2 grid place-content-center rounded-full w-6 h-6 lg:w-6 lg:h-6\"\n                                    >\n                                      <i\n                                        class=\"bi bi-list-ul text-white text-sm m-auto\"\n                                      ></i>\n                                    </span>\n\n                                    <span class=\"ml-3 block truncate\"\n                                      >General</span\n                                    >\n                                  </div>\n\n                                  <!--\n                                  Checkmark, only display for selected option.\n\n                                  Highlighted: \"text-white\", Not Highlighted: \"text-indigo-600\"\n                                -->\n                                  <span\n                                    class=\"hidden highlightedEl text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4\"\n                                  >\n                                    <svg\n                                      class=\"h-5 w-5\"\n                                      viewBox=\"0 0 20 20\"\n                                      fill=\"currentColor\"\n                                      aria-hidden=\"true\"\n                                    >\n                                      <path\n                                        fill-rule=\"evenodd\"\n                                        d=\"M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z\"\n                                        clip-rule=\"evenodd\"\n                                      />\n                                    </svg>\n                                  </span>\n                                </li>\n                                <li\n                                  class=\"text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9\"\n                                  id=\"listbox-option-1\"\n                                  role=\"option\"\n                                >\n                                  <div class=\"flex items-center\">\n                                    <span\n                                      class=\"p-2 grid place-content-center bg-blue-500 rounded-full w-6 h-6 lg:w-6 lg:h-6\"\n                                    >\n                                      <i\n                                        class=\"bi bi-list-ul text-white text-sm m-auto\"\n                                      ></i>\n                                    </span>\n\n                                    <span class=\"ml-3 block truncate\"\n                                      >test 2</span\n                                    >\n                                  </div>\n\n                                  <!--\n                                  Checkmark, only display for selected option.\n\n                                  Highlighted: \"text-white\", Not Highlighted: \"text-indigo-600\"\n                                -->\n                                  <span\n                                    class=\"hidden highlightedEl text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4\"\n                                  >\n                                    <svg\n                                      class=\"h-5 w-5\"\n                                      viewBox=\"0 0 20 20\"\n                                      fill=\"currentColor\"\n                                      aria-hidden=\"true\"\n                                    >\n                                      <path\n                                        fill-rule=\"evenodd\"\n                                        d=\"M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z\"\n                                        clip-rule=\"evenodd\"\n                                      />\n                                    </svg>\n                                  </span>\n                                </li>\n                              </ul>\n                            </div>\n\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div\n              class=\"bg-gray-50 dark:bg-gray-950 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6\"\n            >\n              <button\n                id=\"addTaskbtn\"\n                type=\"button\"\n                class=\"inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto\"\n              >\n                Add Task\n              </button>\n              <button\n                id=\"closemodal\"\n                type=\"button\"\n                class=\"mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 sm:mt-0 sm:w-auto\"\n              >\n                Cancel\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
-}
-function showTaskModal() {
-  var newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
-  newTaskBtn.forEach(function (btn) {
-    btn.addEventListener("click", addTaskModal);
+function groupsection(group) {
+  var groupDiv = document.getElementById("groupsection");
+  var groups = taskMaster.getGroup();
+  groupDiv.innerHTML = "";
+  groupDiv.appendChild(selectmenuboxui(group));
+  selectedid = group.getGroupid();
+  var listoptionsDiv = document.getElementById("listoptions");
+  groups.forEach(function (group) {
+    listoptionsDiv.appendChild(selectOptionUi(group));
   });
+  var options = listoptionsDiv.querySelectorAll("[role=option]");
+
+  // Add event listener for the select menu
+  options.forEach(function (option) {
+    option.addEventListener("click", function () {
+      selectedid = selectoption(this);
+      console.log("new sid: ", selectedid);
+      var newSelectedGroup = taskMaster.getGroup().filter(function (g) {
+        return g.getGroupid() === selectedid;
+      })[0];
+      groupsection(newSelectedGroup);
+    });
+  });
+  var selectGroupmenu = document.querySelector("#listbox");
+  selectGroupmenu.addEventListener("click", toggleListbox);
 }
-function addTaskModal() {
+function addTaskModalUi() {
+  return document.querySelector("#GroupModalElement").innerHTML = "\n    <div\n      id=\"GroupModalElement\"\n      class=\"relative z-10\"\n      aria-labelledby=\"modal-title\"\n      role=\"dialog\"\n      aria-modal=\"true\"\n    >\n      <!--\n      Background backdrop, show/hide based on modal state.\n  \n      Entering: \"ease-out duration-300\"\n        From: \"opacity-0\"\n        To: \"opacity-100\"\n      Leaving: \"ease-in duration-200\"\n        From: \"opacity-100\"\n        To: \"opacity-0\"\n    -->\n      <div\n        class=\"fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity\"\n      ></div>\n\n      <div class=\"fixed inset-0 z-10 w-screen overflow-y-auto\">\n        <div\n          class=\"flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0\"\n        >\n          <!--\n          Modal panel, show/hide based on modal state.\n  \n          Entering: \"ease-out duration-300\"\n            From: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n            To: \"opacity-100 translate-y-0 sm:scale-100\"\n          Leaving: \"ease-in duration-200\"\n            From: \"opacity-100 translate-y-0 sm:scale-100\"\n            To: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n        -->\n          <div\n            class=\"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg\"\n          >\n            <div\n              class=\"bg-white dark:bg-gray-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4\"\n            >\n              <div class=\"sm:flex sm:items-start\">\n                <div\n                  class=\"mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full\"\n                >\n                  <h3\n                    class=\"font-bold leading-6 text-center text-gray-700 dark:text-gray-50\"\n                    id=\"modal-title\"\n                  >\n                    Add New Task\n                  </h3>\n\n                  <div class=\"antialiased mt-2\">\n                    <!-- select color -->\n                    <div class=\"max-w-sm mx-auto py-8\">\n                      <div class=\"mb-5\">\n                        <div class=\"flex flex-col items-center w-full\">\n                          <div\n                            class=\"w-full flex flex-col bg-gray-50 dark:bg-gray-800 rounded-md shadow-sm p-4\"\n                          >\n                            <label\n                              for=\"taskName\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Task:\n                            </label>\n                            <input\n                              id=\"taskName\"\n                              type=\"text\"\n                              placeholder=\"Enter Task\"\n                              class=\"appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\"\n                            />\n\n                            <label\n                              for=\"taskNote\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Note:\n                            </label>\n                            <input\n                              id=\"taskNote\"\n                              type=\"text\"\n                              placeholder=\"Enter a note\"\n                              class=\"appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\"\n                            />\n\n                            <div class=\"flex gap-3 w-full\">\n                              <div id=\"datesection\" class=\"w-2/5 flex flex-col\">\n                                <label\n                                  for=\"datepicker\"\n                                  class=\"w-100 text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                                  >Date:\n                                </label>\n                                \n                              </div>\n\n                              <div\n                                class=\"flex items-center w-3/5 flex-wrap mb-4\"\n                              >\n                                <label\n                                  for=\"priority\"\n                                  class=\"w-full text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                                  >Priority:\n                                </label>\n\n                                <input\n                                  id=\"low\"\n                                  class=\"hidden peer/low\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                  value=\"low\"\n                                />\n                                <label\n                                  for=\"low\"\n                                  class=\"mr-2  dark:peer-checked/low:ring-indigo-200/20  peer-checked/low:bg-indigo-50 dark:peer-checked/low:bg-indigo-900 peer-checked/low:text-indigo-600 dark:peer-checked/low:text-indigo-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >Low</label\n                                >\n\n                                <input\n                                  id=\"medium\"\n                                  class=\"hidden peer/medium\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                  value=\"medium\"\n                                />\n                                <label\n                                  for=\"medium\"\n                                  class=\" mr-2 peer-checked/medium:ring-yellow-700/10 dark:peer-checked/medium:ring-yellow-200/20  peer-checked/medium:bg-yellow-50 dark:peer-checked/medium:bg-yellow-900 peer-checked/medium:text-yellow-600 dark:peer-checked/medium:text-yellow-500  inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >Medium</label\n                                >\n\n                                <input\n                                  id=\"high\"\n                                  class=\"hidden peer/high\"\n                                  type=\"radio\"\n                                  name=\"priority\"\n                                  value=\"high\"\n                                />\n                                <label\n                                  for=\"high\"\n                                  class=\"mr-2 peer-checked/high:ring-red-700/10 dark:peer-checked/high:ring-red-200/20 peer-checked/high:bg-red-50 dark:peer-checked/high:bg-red-900 peer-checked/high:text-red-600 dark:peer-checked/high:text-red-500 inline-flex items-center rounded-md bg-gray-50 dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10\"\n                                  >High</label\n                                >\n                              </div>\n                            </div>\n\n                            <label\n                              for=\"Group\"\n                              class=\"text-start mb-1 text-gray-900 font-medium dark:text-gray-50\"\n                              >Select Group:\n                            </label>\n                            <div id=\"groupsection\" class=\"w-full\"></div>\n                            \n                            <label\n                              for=\"tag\"\n                              class=\"text-start mb-1 mt-2 text-gray-900 font-medium dark:text-gray-50\"\n                              >tag:\n                            </label>\n                            <input\n                              id=\"tag\"\n                              type=\"text\"\n                              placeholder=\"Add Tags\"\n                            class=\"appearance-none text-start mb-4 w-full rounded-md border-0 text-xl py-2 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\"\n                            />\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div\n              class=\"bg-gray-50 dark:bg-gray-950 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6\"\n            >\n              <button\n                id=\"addTaskbtn\"\n                type=\"button\"\n                class=\"inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto\"\n              >\n                Add Task\n              </button>\n              <button\n                id=\"closemodal\"\n                type=\"button\"\n                class=\"mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 sm:mt-0 sm:w-auto\"\n              >\n                Cancel\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
+}
+function addTaskModal(toGroup) {
   var GroupModalElement = document.getElementById("GroupModalElement");
   GroupModalElement.innerHTML = "";
   addTaskModalUi();
   dateSection();
+  groupsection(taskMaster.getGroup()[toGroup]);
   GroupModalElement.classList.remove("hidden");
   var addTaskBtn = document.getElementById("addTaskbtn");
   var closeModalBtn = document.getElementById("closemodal");
-
-  // addTaskBtn.addEventListener("click", addTask);
+  addTaskBtn.addEventListener("click", addTask);
   closeModalBtn.addEventListener("click", function () {
     GroupModalElement.classList.add("hidden");
     GroupModalElement.innerHTML = "";
   });
+}
+function showTaskModal(toGroup) {
+  var newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
+  newTaskBtn.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      addTaskModal(toGroup);
+    });
+  });
+}
+function addTask() {
+  var groupId = selectedid;
+  var name = document.getElementById("taskName").value;
+  var note = document.getElementById("taskNote").value;
+  var duedate = document.getElementById("datepicker").value;
+  var selectedPriority = document.querySelector('input[name="priority"]:checked');
+  var priority;
+  selectedPriority ? priority = selectedPriority.value : priority = "";
+  console.log("Group id: ", selectedid, "Due-date: ", duedate, "Priority: ", priority);
+}
+function getSelectedPriority() {
+  // Select the checked radio button
+  var selectedPriority = document.querySelector('input[name="priority"]:checked');
+
+  // Check if any radio button is selected
+  if (selectedPriority) {
+    // Retrieve the value of the selected radio button
+    var priorityValue = selectedPriority.value;
+    console.log("Selected priority:", priorityValue);
+  } else {
+    console.log("No priority selected");
+  }
 }
 ;// CONCATENATED MODULE: ./src/index.js
 
@@ -559,12 +691,9 @@ function addTaskModal() {
 renderNavUi();
 renderUi();
 showAddGroupModal();
-showTaskModal();
+showTaskModal(2);
 var taskMaster = new Reminder();
-taskMaster.addReminder("test note", "first test", new Date(), "firsttag", "low", 0);
 taskMaster.updateGrouplist();
-console.log(taskMaster.displayReminder());
-console.log(taskMaster.groups);
 
 /***/ })
 
@@ -730,7 +859,7 @@ console.log(taskMaster.groups);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [178,656], () => (__webpack_require__(379)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [178,656], () => (__webpack_require__(836)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

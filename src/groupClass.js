@@ -82,6 +82,7 @@ export class Group {
   }
 
   getGroupListHTML() {
+    
     return `
     <li class="group cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700">
       <span class="p-2 grid place-content-center ${this.groupcolor} rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-list-ul text-white text-base m-auto"></i></span>
@@ -92,5 +93,6 @@ export class Group {
       </span>
     </li>
     `
+
   }
 }
