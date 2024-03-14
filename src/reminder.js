@@ -4,7 +4,14 @@ import { Task } from "./noteClass";
 
 export class Reminder {
     constructor() {
-        this.collection = [];
+        this.collection = [
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        ];
         this.groups = [
             new Group("General", "General","bg-red-500"),
             new Group("Personal", "Personal","bg-blue-500"),
@@ -81,6 +88,16 @@ export class Reminder {
     displayReminderByGroup(groupid) {
         return this.getGroupByName(groupid).collection;
     }
+    noTaskUi(){
+        let div = document.createElement("div");
+        div.innerHTML = `
+            <div id="no-tasks" class="flex-col w-full text-center mt-16 justify-items-center">
+            <p class="text-base text-gray-400 dark:text-gray-400 font-medium">No tasks found</p>
+            <p class="text-base text-gray-400 dark:text-gray-400 font-normal">Add a task to get started</p>
+        </div>
+        `
+        return div
+    }
 
     updateGrouplist() {
         let groupContainer = document.getElementById("taskgroups");
@@ -91,9 +108,28 @@ export class Reminder {
         });
     }
 
+    updateTasklist() {
+        let taskContainer = document.getElementById("tasklist");
+        taskContainer.innerHTML = "";
+        console.log(this.collection)
+        
+        if (this.collection.length === 0 ) {
+            taskContainer.innerHTML = "";
+            taskContainer.appendChild(this.noTaskUi());
+            return
+        } 
+    
+        this.collection.forEach(task => {
+    
+            taskContainer.appendChild(task.getTaskHTML());
+        });
+    }
+
     getGroup(){
         return this.groups
     }
+
+    
     
 
 }

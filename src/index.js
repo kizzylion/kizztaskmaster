@@ -8,18 +8,18 @@ import { showAddGroupModal } from "./addgroup.js";
 import { renderNavUi } from "./rendernav.js";
 import { showTaskModal } from "./addTask.js";
 
-
+const reminder = new Reminder();
 
 renderNavUi()
 renderUi()
 showAddGroupModal()
 showTaskModal(2)
 
-
-
-
-
-export const taskMaster = new Reminder();
-
+export const taskMaster = reminder
 taskMaster.updateGrouplist();
+taskMaster.updateTasklist()
+
+
+
+
 
