@@ -27,6 +27,7 @@ var Group = /*#__PURE__*/function () {
     this.groupname = groupname;
     this.groupcolor = groupcolor;
     this.groupid = groupid;
+    this.taskCount = 0;
     // console.log("Group created with name: " + this.groupname);
   }
   _createClass(Group, [{
@@ -123,7 +124,15 @@ var Group = /*#__PURE__*/function () {
   }, {
     key: "getGroupListHTML",
     value: function getGroupListHTML() {
-      return "\n    <li class=\"group cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ".concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.collection.length, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
+      return "\n    <li class=\"group cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ".concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.taskCount, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
+    }
+  }, {
+    key: "calculateTaskCount",
+    value: function calculateTaskCount(collection) {
+      var _this = this;
+      this.taskCount = collection.filter(function (note) {
+        return note.getGroupid() === _this.groupid;
+      }).length;
     }
   }]);
   return Group;
@@ -135,6 +144,7 @@ function noteClass_defineProperties(target, props) { for (var i = 0; i < props.l
 function noteClass_createClass(Constructor, protoProps, staticProps) { if (protoProps) noteClass_defineProperties(Constructor.prototype, protoProps); if (staticProps) noteClass_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function noteClass_toPropertyKey(t) { var i = noteClass_toPrimitive(t, "string"); return "symbol" == noteClass_typeof(i) ? i : String(i); }
 function noteClass_toPrimitive(t, r) { if ("object" != noteClass_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != noteClass_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 var Task = /*#__PURE__*/function () {
   function Task(title, message, date, tag, priority, groupid) {
     noteClass_classCallCheck(this, Task);
@@ -248,7 +258,7 @@ var Task = /*#__PURE__*/function () {
     key: "getTaskHTML",
     value: function getTaskHTML() {
       var div = document.createElement('div');
-      div.innerHTML = "\n            <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n            <div>\n            <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n            </div>\n            <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n                <div class=\"flex gap-x-2\">\n                <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">".concat(this.title, "</h3>\n                <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n                </div>\n                <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">").concat(this.message, "</p>\n                <div class=\"flex\">\n                <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: ").concat(this.date, "</span>\n                <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">").concat(this.tag, "</span>\n                <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n                <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n            \n                </div>\n    \n            </div>\n    \n            </div>\n        ");
+      div.innerHTML = "\n            <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n            <div>\n            <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n\n            </div>\n            <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n                <div class=\"flex gap-x-2\">\n                <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">".concat(this.title, "</h3>\n                <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n                </div>\n                <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">").concat(this.message, "</p>\n                <div class=\"flex\">\n                <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: ").concat(this.date, "</span>\n                <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">").concat(this.tag, "</span>\n                <span id=\"edittaskbtn\" data-btn=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n                <span id=\"deletetaskbtn\" data-btn=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n\n                </div>\n    \n            </div>\n    \n            </div>\n        ");
       return div;
     }
   }]);
@@ -263,10 +273,13 @@ function reminder_toPropertyKey(t) { var i = reminder_toPrimitive(t, "string"); 
 function reminder_toPrimitive(t, r) { if ("object" != reminder_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != reminder_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
+// import { toggleUi } from "./components/toggle";
+
 var Reminder = /*#__PURE__*/function () {
   function Reminder() {
     reminder_classCallCheck(this, Reminder);
-    this.collection = [new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General"), new Task("Pay Utility Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
+    this.collection = [new Task("Pay Water Bill", "Pay utility bill for water bill", "2022-05-27", "General", "low", "General"), new Task("Pay Electricity Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
     this.groups = [new Group("General", "General", "bg-red-500"), new Group("Personal", "Personal", "bg-blue-500"), new Group("Work", "Work", "bg-green-500")];
   }
 
@@ -391,6 +404,7 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "updateTasklist",
     value: function updateTasklist() {
+      var _this = this;
       var taskContainer = document.getElementById("tasklist");
       taskContainer.innerHTML = "";
       console.log(this.collection);
@@ -402,11 +416,36 @@ var Reminder = /*#__PURE__*/function () {
       this.collection.forEach(function (task) {
         taskContainer.appendChild(task.getTaskHTML());
       });
+
+      // get data-btn="deletetaskbtn" elements and bind the delete function
+      var deleteButtons = document.querySelectorAll('[data-btn="deletetaskbtn"]');
+      deleteButtons.forEach(function (button, index) {
+        button.addEventListener("click", function () {
+          _this.deleteNote(_this.collection[index]);
+          _this.updateTasklist();
+        });
+      });
     }
   }, {
     key: "getGroup",
     value: function getGroup() {
       return this.groups;
+    }
+  }, {
+    key: "getCountOfTaskInEachGroup",
+    value: function getCountOfTaskInEachGroup() {
+      var _this2 = this;
+      this.groups.forEach(function (group) {
+        group.calculateTaskCount(_this2.collection);
+        console.log("".concat(group.getGroupname(), ": "), group.taskCount);
+      });
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      taskMaster.getCountOfTaskInEachGroup();
+      taskMaster.updateGrouplist();
+      taskMaster.updateTasklist();
     }
   }]);
   return Reminder;
@@ -625,6 +664,7 @@ function selectedoption() {
 
 
 
+
 var selectedid = null; //Group Selected
 var priority = null;
 function dateSection() {
@@ -671,10 +711,12 @@ function addTaskModal(toGroup) {
   var addTaskBtn = document.getElementById("addTaskbtn");
   var closeModalBtn = document.getElementById("closemodal");
   addTaskBtn.addEventListener("click", addTask);
-  closeModalBtn.addEventListener("click", function () {
-    GroupModalElement.classList.add("hidden");
-    GroupModalElement.innerHTML = "";
-  });
+  closeModalBtn.addEventListener("click", closeModal);
+}
+function closeModal() {
+  var GroupModalElement = document.getElementById("GroupModalElement");
+  GroupModalElement.classList.add("hidden");
+  GroupModalElement.innerHTML = "";
 }
 function showTaskModal(toGroup) {
   var newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
@@ -691,8 +733,18 @@ function addTask() {
   var duedate = document.getElementById("datepicker").value;
   var selectedPriority = document.querySelector('input[name="priority"]:checked');
   var priority;
+  var tag = document.getElementById("tag").value;
   selectedPriority ? priority = selectedPriority.value : priority = "";
-  console.log("Group id: ", selectedid, "Due-date: ", duedate, "Priority: ", priority);
+
+  // Check if any input is empty
+  if (!name || !duedate) {
+    alert("Please enter task name and due date");
+    return;
+  }
+  // Add task to collection
+  taskMaster.collection.push(new Task(name, note, duedate, tag, priority, selectedid));
+  taskMaster.update();
+  closeModal();
 }
 function getSelectedPriority() {
   // Select the checked radio button
@@ -721,10 +773,9 @@ var reminder = new Reminder();
 renderNavUi();
 renderUi();
 showAddGroupModal();
-showTaskModal(2);
+showTaskModal(0);
 var taskMaster = reminder;
-taskMaster.updateGrouplist();
-taskMaster.updateTasklist();
+taskMaster.update();
 
 /***/ })
 
