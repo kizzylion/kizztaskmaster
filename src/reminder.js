@@ -1,16 +1,14 @@
 
+import { taskMaster } from ".";
 import { Group } from "./groupClass";
 import { Task } from "./noteClass";
+// import { toggleUi } from "./components/toggle";
 
 export class Reminder {
     constructor() {
         this.collection = [
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
-        new Task("Pay Utility Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Water Bill","Pay utility bill for water bill","2022-05-27","General", "low", "General"),
+        new Task("Pay Electricity Bill","Pay utility bill for electric bill","2022-05-27","General", "low", "General"),
         ];
         this.groups = [
             new Group("General", "General","bg-red-500"),
@@ -123,13 +121,34 @@ export class Reminder {
     
             taskContainer.appendChild(task.getTaskHTML());
         });
+        
+        // get data-btn="deletetaskbtn" elements and bind the delete function
+        const deleteButtons = document.querySelectorAll('[data-btn="deletetaskbtn"]');
+        deleteButtons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                this.deleteNote(this.collection[index]);
+                this.updateTasklist();
+            });
+        })
+        
+
     }
 
     getGroup(){
         return this.groups
     }
 
+    getCountOfTaskInEachGroup(){
+        this.groups.forEach(group=>{
+            group.calculateTaskCount(this.collection)
+            console.log(`${group.getGroupname()}: `, group.taskCount)
+        })
+    }
     
-    
+    update(){
+        taskMaster.getCountOfTaskInEachGroup()
+        taskMaster.updateGrouplist();
+        taskMaster.updateTasklist()
+    }
 
 }

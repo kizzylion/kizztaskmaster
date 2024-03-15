@@ -13,11 +13,11 @@ const reminder = new Reminder();
 renderNavUi()
 renderUi()
 showAddGroupModal()
-showTaskModal(2)
+showTaskModal(0)
 
 export const taskMaster = reminder
-taskMaster.updateGrouplist();
-taskMaster.updateTasklist()
+taskMaster.update()
+
 
 
 

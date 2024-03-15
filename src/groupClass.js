@@ -4,6 +4,7 @@ export class Group {
     this.groupname = groupname;
     this.groupcolor = groupcolor;
     this.groupid = groupid;
+    this.taskCount = 0;
     // console.log("Group created with name: " + this.groupname);
   }
 
@@ -88,11 +89,15 @@ export class Group {
       <span class="p-2 grid place-content-center ${this.groupcolor} rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-list-ul text-white text-base m-auto"></i></span>
       <span class=" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0">
         <h4 class="text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 ">${this.groupname}</h4>
-        <p class="text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1">${this.collection.length}</p>
+        <p class="text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1">${this.taskCount}</p>
         <span class="grid ml-2 w-6 h-6 place-content-center sm:hidden"><i class="bi bi-chevron-right"></i></span>
       </span>
     </li>
     `
 
+  }
+
+  calculateTaskCount(collection) {
+   this.taskCount = collection.filter(note => note.getGroupid() === this.groupid).length;
   }
 }

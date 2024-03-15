@@ -9,6 +9,7 @@ import { selectmenuboxui } from "./components/selectmenu";
 import { selectOptionUi } from "./components/selectmenu";
 import { selectoption } from "./components/selectmenu";
 import { toggleListbox } from "./components/selectmenu";
+import { Task } from "./noteClass";
 
 
 let selectedid = null; //Group Selected
@@ -267,13 +268,15 @@ function addTaskModal(toGroup) {
   const closeModalBtn = document.getElementById("closemodal");
 
   addTaskBtn.addEventListener("click", addTask);
-  closeModalBtn.addEventListener("click", () => {
-    GroupModalElement.classList.add("hidden");
-    GroupModalElement.innerHTML = "";
-  });
+  closeModalBtn.addEventListener("click", closeModal); 
 }
 
+function closeModal(){
+  const GroupModalElement = document.getElementById("GroupModalElement");
+    GroupModalElement.classList.add("hidden");
+    GroupModalElement.innerHTML = "";
 
+}
 
 export function showTaskModal(toGroup) {
   const newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
@@ -293,14 +296,22 @@ function addTask(){
   const duedate = document.getElementById("datepicker").value;
   const selectedPriority = document.querySelector('input[name="priority"]:checked');
   let priority;
+  const tag = document.getElementById("tag").value;
   
   (selectedPriority) ? priority = selectedPriority.value : priority = "";
   
+  // Check if any input is empty
+  if (!name || !duedate ) {
+    alert("Please enter task name and due date");
+    return;
+  }
+  // Add task to collection
+  taskMaster.collection.push(new Task(name, note, duedate, tag, priority, selectedid));
+  
+  taskMaster.update()
+  closeModal();
+  
 
-  console.log("Group id: ", selectedid,
-    "Due-date: ", duedate, 
-    "Priority: ", priority
-  )
 }
 
 function getSelectedPriority() {
