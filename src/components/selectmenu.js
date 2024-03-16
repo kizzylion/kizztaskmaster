@@ -188,7 +188,6 @@ function focusin() {
     const listbox = document.getElementById("listbox");
     const listoptions = document.querySelector("#listoptions");
     const selectedid = e.id;
-    console.log(selectedid)
     const selected = document.getElementById(selectedid);
 
     listbox.setAttribute("aria-activedescendant", selectedid);
@@ -204,6 +203,6 @@ function focusin() {
 // update listbox ui based on selected option
 
 
-function selectedoption() {
+export function selectedoption() {
     return listoptions.getAttribute("aria-activedescendant");
   }

@@ -5,8 +5,8 @@ export class Task{
         this.title = title
         this.message = message
         this.date = date
-        this.tag = (tag === "") ? null : `${'#' + tag}`
-        this.priority = (priority === "") ? null : priority //low, medium, high
+        this.tag = (tag === "") ? "" : `${'#' + tag}`
+        this.priority = (priority === "") ? "" : priority //low, medium, high
         this.completed = false;
         this.groupid = groupid;
     }
@@ -43,6 +43,11 @@ export class Task{
         return this.completed
     }
 
+    setTitle(title){
+        this.title = title
+        console.log(this.title)
+    }
+
     setGroupid(groupid){
         this.groupid = groupid
     }
@@ -50,7 +55,10 @@ export class Task{
     setTag(tag){
         this.tag = tag
     }
-
+    
+    setDate(date){
+        this.date = date
+    }
     setMessage(message){
         this.message = message
     }

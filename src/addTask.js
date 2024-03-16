@@ -11,11 +11,8 @@ import { selectoption } from "./components/selectmenu";
 import { toggleListbox } from "./components/selectmenu";
 import { Task } from "./noteClass";
 
-
 let selectedid = null; //Group Selected
 let priority = null;
-
-
 
 function dateSection() {
   const dateDiv = document.getElementById("datesection");
@@ -23,13 +20,12 @@ function dateSection() {
   datepicker();
 }
 
-function groupsection(group) {
+export function groupsection(group) {
   const groupDiv = document.getElementById("groupsection");
   const groups = taskMaster.getGroup();
   groupDiv.innerHTML = "";
   groupDiv.appendChild(selectmenuboxui(group));
   selectedid = group.getGroupid();
-  
 
   const listoptionsDiv = document.getElementById("listoptions");
 
@@ -41,21 +37,19 @@ function groupsection(group) {
   // Add event listener for the select menu
   options.forEach((option) => {
     option.addEventListener("click", function () {
-      selectedid = selectoption(this);
+      let selectedid = selectoption(this);
       console.log("new sid: ", selectedid);
-      let newSelectedGroup = taskMaster.getGroup().filter(
-        (g) => g.getGroupid() === selectedid
-      )[0];
-      groupsection(newSelectedGroup)
-      
+      let newSelectedGroup = taskMaster
+        .getGroup()
+        .filter((g) => g.getGroupid() === selectedid)[0];
+      groupsection(newSelectedGroup);
     });
   });
-
 
   const selectGroupmenu = document.querySelector("#listbox");
   selectGroupmenu.addEventListener("click", toggleListbox);
 
-  
+  console.log(selectedid);
 }
 
 function addTaskModalUi() {
@@ -255,32 +249,32 @@ function addTaskModalUi() {
     `);
 }
 
-
-function addTaskModal(toGroup) {
+export function addTaskModal(toGroup) {
   const GroupModalElement = document.getElementById("GroupModalElement");
   GroupModalElement.innerHTML = "";
   addTaskModalUi();
   dateSection();
   groupsection(taskMaster.getGroup()[toGroup]);
+
   GroupModalElement.classList.remove("hidden");
 
   const addTaskBtn = document.getElementById("addTaskbtn");
   const closeModalBtn = document.getElementById("closemodal");
 
   addTaskBtn.addEventListener("click", addTask);
-  closeModalBtn.addEventListener("click", closeModal); 
+  closeModalBtn.addEventListener("click", closeModal);
+  return selectedid;
 }
 
-function closeModal(){
+export function closeModal() {
   const GroupModalElement = document.getElementById("GroupModalElement");
-    GroupModalElement.classList.add("hidden");
-    GroupModalElement.innerHTML = "";
-
+  GroupModalElement.classList.add("hidden");
+  GroupModalElement.innerHTML = "";
 }
 
 export function showTaskModal(toGroup) {
   const newTaskBtn = document.querySelectorAll('[data-element="newtask"]');
-  
+
   newTaskBtn.forEach((btn) => {
     btn.addEventListener("click", function () {
       addTaskModal(toGroup);
@@ -288,42 +282,59 @@ export function showTaskModal(toGroup) {
   });
 }
 
-
-function addTask(){
-  const groupId = selectedid;
+export function getTaskFormInformation() {
   const name = document.getElementById("taskName").value;
   const note = document.getElementById("taskNote").value;
   const duedate = document.getElementById("datepicker").value;
-  const selectedPriority = document.querySelector('input[name="priority"]:checked');
+  const selectedPriority = document.querySelector(
+    'input[name="priority"]:checked'
+  );
   let priority;
   const tag = document.getElementById("tag").value;
-  
-  (selectedPriority) ? priority = selectedPriority.value : priority = "";
-  
+
+  selectedPriority ? (priority = selectedPriority.value) : (priority = "");
+
   // Check if any input is empty
-  if (!name || !duedate ) {
+  if (!name || !duedate) {
     alert("Please enter task name and due date");
     return;
   }
-  // Add task to collection
-  taskMaster.collection.push(new Task(name, note, duedate, tag, priority, selectedid));
-  
-  taskMaster.update()
-  closeModal();
-  
 
+  return { name, note, duedate, tag, priority };
+}
+
+export function addTask() {
+  const groupId = selectedid;
+
+  let forminfo = getTaskFormInformation();
+
+  // Add task to collection
+  taskMaster.collection.push(
+    new Task(
+      forminfo.name,
+      forminfo.note,
+      forminfo.duedate,
+      forminfo.tag,
+      forminfo.priority,
+      groupId
+    )
+  );
+  taskMaster.update();
+  closeModal();
 }
 
 function getSelectedPriority() {
   // Select the checked radio button
-  const selectedPriority = document.querySelector('input[name="priority"]:checked');
+  const selectedPriority = document.querySelector(
+    'input[name="priority"]:checked'
+  );
 
   // Check if any radio button is selected
   if (selectedPriority) {
-      // Retrieve the value of the selected radio button
-      const priorityValue = selectedPriority.value;
-      console.log("Selected priority:", priorityValue);
+    // Retrieve the value of the selected radio button
+    const priorityValue = selectedPriority.value;
+    console.log("Selected priority:", priorityValue);
   } else {
-      console.log("No priority selected");
+    console.log("No priority selected");
   }
 }
