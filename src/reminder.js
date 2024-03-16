@@ -269,4 +269,51 @@ export class Reminder {
     taskMaster.updateGrouplist();
     taskMaster.updateTasklist();
   }
+
+  isSmallScreen() {
+    return window.matchMedia("(max-width: 640px)").matches; // 640px is the sm breakpoint in Tailwind CSS
+  }
+
+  hideNavInSmallScreen() {
+    let navigator = document.getElementById("Navigator");
+    let main = document.querySelector("main");
+
+    // hide navigator
+    navigator.classList.add("hidden");
+    // show main content
+    main.classList.remove("hidden", "sm:flex");
+    main.classList.add("flex");
+  }
+
+  showNavInSmallScreen() {
+    let navigator = document.getElementById("Navigator");
+    let main = document.querySelector("main");
+
+    // show navigator
+    navigator.classList.remove("hidden");
+    // hide main content
+    main.classList.add("hidden", "sm:flex");
+    main.classList.remove("flex");
+  }
+
+  backButtonEvent() {
+    if (this.isSmallScreen) {
+      let backBtn = document.getElementById("backbtn");
+      console.log(this);
+      backBtn.addEventListener("click", this.showNavInSmallScreen());
+    }
+  }
+
+  mobileNavEvent() {
+    if (this.isSmallScreen) {
+      let tabs = document.querySelectorAll('[data-id="tab"]');
+      let backBtn = document.getElementById("backbtn");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", this.hideNavInSmallScreen);
+      });
+
+      backBtn.addEventListener("click", this.showNavInSmallScreen);
+    }
+  }
 }

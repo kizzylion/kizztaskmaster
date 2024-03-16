@@ -6,7 +6,7 @@ export function renderUi() {
     <header id="groupheader" class="flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative ">
       <div class="flex flex-col">
         <div class="flex items-center  align-middle">
-          <span id="backbtn" class="sm:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto"><i class="bi bi-chevron-left mr-2"></i></span>
+          <span id="backbtn" class="md:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto"><i class="bi bi-chevron-left mr-2"></i></span>
           <span id="editgroupbtn" class="text-base text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer font-medium ml-auto"><i class="bi bi-pen mr-2"></i>Edit</span>
           <span id="deletegroupbtn" class="text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4"><i class="bi bi-trash3 mr-2 text-red-500 hover:text-red-600"></i>Delete Group</span>
         </div>

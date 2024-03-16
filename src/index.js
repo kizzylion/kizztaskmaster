@@ -18,6 +18,14 @@ showTaskModal(0)
 export const taskMaster = reminder
 taskMaster.update()
 
+taskMaster.mobileNavEvent()
+
+
+    
+
+    
+
+
 
 
 

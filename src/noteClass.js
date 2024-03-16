@@ -105,13 +105,17 @@ export class Task{
         div.innerHTML = `
             <div class="flex gap-x-4  lg:gap-x-3 mt-4">
             <div>
-            <input id="Completed" type="checkbox" name="Completed">
+            <input 
+                class=""
+                id="Completed" 
+                type="checkbox" 
+                name="Completed">
 
             </div>
             <div class="flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2">
                 <div class="flex gap-x-2">
                 <h3 class="mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl">${this.title}</h3>
-                <span class="cursor-pointer"><i class="bi bi-flag-fill text-green-600 dark:text-green-500"></i></span>
+                <!-- <span class="cursor-pointer"><i class="bi bi-flag-fill text-green-600 dark:text-green-500"></i></span> -->
                 </div>
                 <p class="text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2">${this.message}</p>
                 <div class="flex">
