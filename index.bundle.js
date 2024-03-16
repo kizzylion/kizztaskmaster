@@ -229,7 +229,7 @@ var Task = /*#__PURE__*/function () {
     key: "getTaskHTML",
     value: function getTaskHTML() {
       var div = document.createElement('div');
-      div.innerHTML = "\n            <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n            <div>\n            <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n\n            </div>\n            <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n                <div class=\"flex gap-x-2\">\n                <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">".concat(this.title, "</h3>\n                <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n                </div>\n                <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">").concat(this.message, "</p>\n                <div class=\"flex\">\n                <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: ").concat(this.date, "</span>\n                <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">").concat(this.tag, "</span>\n                <span id=\"edittaskbtn\" data-btn=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n                <span id=\"deletetaskbtn\" data-btn=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n\n                </div>\n    \n            </div>\n    \n            </div>\n        ");
+      div.innerHTML = "\n            <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n            <div>\n            <input \n                class=\"\"\n                id=\"Completed\" \n                type=\"checkbox\" \n                name=\"Completed\">\n\n            </div>\n            <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n                <div class=\"flex gap-x-2\">\n                <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">".concat(this.title, "</h3>\n                <!-- <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span> -->\n                </div>\n                <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">").concat(this.message, "</p>\n                <div class=\"flex\">\n                <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: ").concat(this.date, "</span>\n                <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">").concat(this.tag, "</span>\n                <span id=\"edittaskbtn\" data-btn=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n                <span id=\"deletetaskbtn\" data-btn=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n\n                </div>\n    \n            </div>\n    \n            </div>\n        ");
       return div;
     }
   }]);
@@ -749,13 +749,64 @@ var Reminder = /*#__PURE__*/function () {
       taskMaster.updateGrouplist();
       taskMaster.updateTasklist();
     }
+  }, {
+    key: "isSmallScreen",
+    value: function isSmallScreen() {
+      return window.matchMedia("(max-width: 640px)").matches; // 640px is the sm breakpoint in Tailwind CSS
+    }
+  }, {
+    key: "hideNavInSmallScreen",
+    value: function hideNavInSmallScreen() {
+      var navigator = document.getElementById("Navigator");
+      var main = document.querySelector("main");
+
+      // hide navigator
+      navigator.classList.add("hidden");
+      // show main content
+      main.classList.remove("hidden", "sm:flex");
+      main.classList.add("flex");
+    }
+  }, {
+    key: "showNavInSmallScreen",
+    value: function showNavInSmallScreen() {
+      var navigator = document.getElementById("Navigator");
+      var main = document.querySelector("main");
+
+      // show navigator
+      navigator.classList.remove("hidden");
+      // hide main content
+      main.classList.add("hidden", "sm:flex");
+      main.classList.remove("flex");
+    }
+  }, {
+    key: "backButtonEvent",
+    value: function backButtonEvent() {
+      if (this.isSmallScreen) {
+        var backBtn = document.getElementById("backbtn");
+        console.log(this);
+        backBtn.addEventListener("click", this.showNavInSmallScreen());
+      }
+    }
+  }, {
+    key: "mobileNavEvent",
+    value: function mobileNavEvent() {
+      var _this3 = this;
+      if (this.isSmallScreen) {
+        var tabs = document.querySelectorAll('[data-id="tab"]');
+        var backBtn = document.getElementById("backbtn");
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", _this3.hideNavInSmallScreen);
+        });
+        backBtn.addEventListener("click", this.showNavInSmallScreen);
+      }
+    }
   }]);
   return Reminder;
 }();
 ;// CONCATENATED MODULE: ./src/renderMainUi.js
 function renderUi() {
   var main = document.querySelector("main");
-  main.innerHTML += "\n  \n    <header id=\"groupheader\" class=\"flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative \">\n      <div class=\"flex flex-col\">\n        <div class=\"flex items-center  align-middle\">\n          <span id=\"backbtn\" class=\"sm:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto\"><i class=\"bi bi-chevron-left mr-2\"></i></span>\n          <span id=\"editgroupbtn\" class=\"text-base text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer font-medium ml-auto\"><i class=\"bi bi-pen mr-2\"></i>Edit</span>\n          <span id=\"deletegroupbtn\" class=\"text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4\"><i class=\"bi bi-trash3 mr-2 text-red-500 hover:text-red-600\"></i>Delete Group</span>\n        </div>\n        <div id=\"groupdescription\" class=\"flex py-4 lg:py-4\">\n          <h1 id=\"groupname\" class=\"text-3xl font-bold text-red-500 dark:text-red-400 mr-auto\">All</h1>\n          <p id=\"grouplength\" class=\"text-3xl font-bold text-red-500 dark:text-red-500\">0</p>\n        </div>\n      </div>\n      <div id=\"groupdescription2\" class=\"flex py-2 lg:py-2 text-xs \">\n        <span>6  Completed</span> <span class=\"ml-1 text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">\u2022 Clear</span> <span class=\"ml-auto  text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">Hide</span>\n      </div>\n    </header>\n    <ul id=\"tasklist\" class=\"flex flex-col py-0  lg:pr-6 h-full overflow-auto px-5 lg:px-4\">\n      <!-- Task List -->\n\n      \n      <div id=\"no-tasks\" class=\"hidden flex-col w-full text-center mt-16 justify-items-center\">\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-medium\">No tasks found</p>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-normal\">Add a task to get started</p>\n      </div>\n\n      <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n      <div>\n        <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n      </div>\n        <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n          <div class=\"flex gap-x-2\">\n            <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">{title}</h3>\n            <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n          </div>\n          <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">{description}</p>\n          <div class=\"flex\">\n            <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: {date}</span>\n            <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">{tag}</span>\n            <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n            <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n        \n          </div>\n\n        </div>\n\n      </div>\n      \n    </ul>\n    <footer id=\"groupfooter\" class=\"flex px-5 lg:px-4 py-4  lg:pr-6 bg-gray-50 dark:bg-neutral-900 dark:md:bg-gray-900\">\n      <div data-element=\"newtask\" class=\" text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n      <div class=\"sm:hidden sm:ml-0 text-indigo-500 dark:text-indigo-400 font-normal hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus text-[1.25rem] mr-1 \"></i> New Group</div>\n    </footer>\n    ";
+  main.innerHTML += "\n  \n    <header id=\"groupheader\" class=\"flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative \">\n      <div class=\"flex flex-col\">\n        <div class=\"flex items-center  align-middle\">\n          <span id=\"backbtn\" class=\"md:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto\"><i class=\"bi bi-chevron-left mr-2\"></i></span>\n          <span id=\"editgroupbtn\" class=\"text-base text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer font-medium ml-auto\"><i class=\"bi bi-pen mr-2\"></i>Edit</span>\n          <span id=\"deletegroupbtn\" class=\"text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4\"><i class=\"bi bi-trash3 mr-2 text-red-500 hover:text-red-600\"></i>Delete Group</span>\n        </div>\n        <div id=\"groupdescription\" class=\"flex py-4 lg:py-4\">\n          <h1 id=\"groupname\" class=\"text-3xl font-bold text-red-500 dark:text-red-400 mr-auto\">All</h1>\n          <p id=\"grouplength\" class=\"text-3xl font-bold text-red-500 dark:text-red-500\">0</p>\n        </div>\n      </div>\n      <div id=\"groupdescription2\" class=\"flex py-2 lg:py-2 text-xs \">\n        <span>6  Completed</span> <span class=\"ml-1 text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">\u2022 Clear</span> <span class=\"ml-auto  text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">Hide</span>\n      </div>\n    </header>\n    <ul id=\"tasklist\" class=\"flex flex-col py-0  lg:pr-6 h-full overflow-auto px-5 lg:px-4\">\n      <!-- Task List -->\n\n      \n      <div id=\"no-tasks\" class=\"hidden flex-col w-full text-center mt-16 justify-items-center\">\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-medium\">No tasks found</p>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-normal\">Add a task to get started</p>\n      </div>\n\n      <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n      <div>\n        <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n      </div>\n        <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n          <div class=\"flex gap-x-2\">\n            <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">{title}</h3>\n            <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n          </div>\n          <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">{description}</p>\n          <div class=\"flex\">\n            <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: {date}</span>\n            <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">{tag}</span>\n            <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n            <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n        \n          </div>\n\n        </div>\n\n      </div>\n      \n    </ul>\n    <footer id=\"groupfooter\" class=\"flex px-5 lg:px-4 py-4  lg:pr-6 bg-gray-50 dark:bg-neutral-900 dark:md:bg-gray-900\">\n      <div data-element=\"newtask\" class=\" text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n      <div class=\"sm:hidden sm:ml-0 text-indigo-500 dark:text-indigo-400 font-normal hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus text-[1.25rem] mr-1 \"></i> New Group</div>\n    </footer>\n    ";
 }
 ;// CONCATENATED MODULE: ./src/addgroup.js
 
@@ -887,6 +938,7 @@ showAddGroupModal();
 showTaskModal(0);
 var taskMaster = reminder;
 taskMaster.update();
+taskMaster.mobileNavEvent();
 
 /***/ })
 
