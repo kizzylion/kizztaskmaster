@@ -53,7 +53,6 @@ export function renderUi() {
     </ul>
     <footer id="groupfooter" class="flex px-5 lg:px-4 py-4  lg:pr-6 bg-gray-50 dark:bg-neutral-900 dark:md:bg-gray-900">
       <div data-element="newtask" class=" text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer"> <i class="bi bi-plus-circle-fill text-[1.25rem] mr-1"></i> New Task</div>
-      <div class="sm:hidden sm:ml-0 text-indigo-500 dark:text-indigo-400 font-normal hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer"> <i class="bi bi-plus text-[1.25rem] mr-1 "></i> New Group</div>
     </footer>
     `
 }

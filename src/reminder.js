@@ -279,10 +279,11 @@ export class Reminder {
     let main = document.querySelector("main");
 
     // hide navigator
-    navigator.classList.add("hidden");
+      navigator.classList.remove("flex");
+      navigator.classList.add("hidden", "sm:flex");
     // show main content
-    main.classList.remove("hidden", "sm:flex");
-    main.classList.add("flex");
+      main.classList.remove("hidden", "sm:flex");
+      main.classList.add("flex");
   }
 
   showNavInSmallScreen() {
@@ -290,7 +291,8 @@ export class Reminder {
     let main = document.querySelector("main");
 
     // show navigator
-    navigator.classList.remove("hidden");
+      navigator.classList.add("flex");
+      navigator.classList.remove("hidden", "sm:flex");
     // hide main content
     main.classList.add("hidden", "sm:flex");
     main.classList.remove("flex");
@@ -307,6 +309,7 @@ export class Reminder {
   mobileNavEvent() {
     if (this.isSmallScreen) {
       let tabs = document.querySelectorAll('[data-id="tab"]');
+     
       let backBtn = document.getElementById("backbtn");
 
       tabs.forEach((tab) => {
@@ -314,6 +317,6 @@ export class Reminder {
       });
 
       backBtn.addEventListener("click", this.showNavInSmallScreen);
-    }
+    } else return
   }
 }
