@@ -14,6 +14,7 @@ export function initialRender(){
     showAddGroupModal()
     viewTaskByGroup()
     viewAllTask()
+    taskMaster.showNavInSmallScreen()
 }
 export function viewAllTask(){
     

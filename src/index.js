@@ -18,8 +18,7 @@ showAddGroupModal()
 showTaskModal(0)
 // taskMaster.update(taskMaster.temporalcollection)
 initialRender()
-viewAllTask()
-viewTaskByGroup()
+taskMaster.showNavInSmallScreen()
 
 
     

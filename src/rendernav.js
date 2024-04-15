@@ -15,7 +15,7 @@ export function renderNavUi(){
         <div id="allTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600  rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
-            <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">1</h3>
+            <h3 id="allTabCount" class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">1</h3>
           </div>
           <h4 class="text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none">All</h4>
         </div>
@@ -24,7 +24,7 @@ export function renderNavUi(){
         <div id="todayTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
-            <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">0</h3>
+            <h3 id="todayTabCount" class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">0</h3>
           </div>
           <h4 class="text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none">Today</h4>
         </div>
@@ -33,7 +33,7 @@ export function renderNavUi(){
         <div id="priorityTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
-            <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">3</h3>
+            <h3 id="priorityTabCount" class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">3</h3>
           </div>
           <h4 class="text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none">Priority</h4>
         </div>
@@ -42,7 +42,7 @@ export function renderNavUi(){
         <div id="completedTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
-            <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">2</h3>
+            <h3 id="completedTabCount" class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">2</h3>
           </div>
           <h4 class="text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none">Completed</h4>
         </div>
