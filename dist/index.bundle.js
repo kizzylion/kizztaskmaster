@@ -814,6 +814,18 @@ var Reminder = /*#__PURE__*/function () {
       return div;
     }
   }, {
+    key: "updateTabsCounts",
+    value: function updateTabsCounts() {
+      var allTabCount = document.getElementById("allTabCount");
+      var priorityTabCount = document.getElementById("priorityTabCount");
+      var todayTabCount = document.getElementById("todayTabCount");
+      var completedTabCount = document.getElementById("completedTabCount");
+      allTabCount.innerText = this.getCountOfAllTask();
+      priorityTabCount.innerText = this.getCountsOfPrioritizedTask();
+      todayTabCount.innerText = this.getCountsOfAllDueTaskToday();
+      completedTabCount.innerText = this.getCountOfCompletedTask();
+    }
+  }, {
     key: "updateGrouplist",
     value: function updateGrouplist() {
       var groupContainer = document.getElementById("taskgroups");
@@ -943,11 +955,38 @@ var Reminder = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "getCountOfAllTask",
+    value: function getCountOfAllTask() {
+      return this.collection.length;
+    }
+  }, {
+    key: "getCountsOfPrioritizedTask",
+    value: function getCountsOfPrioritizedTask() {
+      return this.collection.filter(function (task) {
+        return task.getPriority() === "high" || task.getPriority() === "medium";
+      }).length;
+    }
+  }, {
+    key: "getCountsOfAllDueTaskToday",
+    value: function getCountsOfAllDueTaskToday() {
+      // return this.collection.filter(task => task.getDate() === "today").length
+      var todaysDate = new Date();
+      return 0;
+    }
+  }, {
+    key: "getCountOfCompletedTask",
+    value: function getCountOfCompletedTask() {
+      return this.collection.filter(function (task) {
+        return task.getCompleted() === true;
+      }).length;
+    }
+  }, {
     key: "update",
     value: function update(temporalcollection) {
-      taskMaster.getCountOfTaskInEachGroup();
-      taskMaster.updateGrouplist();
-      taskMaster.updateTasklist(temporalcollection);
+      this.getCountOfTaskInEachGroup();
+      this.updateTabsCounts();
+      this.updateGrouplist();
+      this.updateTasklist(temporalcollection);
     }
   }, {
     key: "isSmallScreen",

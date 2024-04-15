@@ -147,7 +147,17 @@ export class Reminder {
         `;
     return div;
   }
+  updateTabsCounts(){
+    let allTabCount = document.getElementById("allTabCount");
+    let priorityTabCount = document.getElementById("priorityTabCount");
+    let todayTabCount = document.getElementById("todayTabCount");
+    let completedTabCount = document.getElementById("completedTabCount");
 
+    allTabCount.innerText = this.getCountOfAllTask();
+    priorityTabCount.innerText = this.getCountsOfPrioritizedTask();
+    todayTabCount.innerText = this.getCountsOfAllDueTaskToday();
+    completedTabCount.innerText = this.getCountOfCompletedTask();
+  }
   updateGrouplist() {
     let groupContainer = document.getElementById("taskgroups");
     groupContainer.innerHTML = "";
@@ -296,10 +306,29 @@ export class Reminder {
     });
   }
 
+  getCountOfAllTask(){
+    return this.collection.length
+  }
+
+  getCountsOfPrioritizedTask(){
+    return this.collection.filter(task => task.getPriority() === "high" || task.getPriority() === "medium").length
+  }
+
+  getCountsOfAllDueTaskToday(){
+    // return this.collection.filter(task => task.getDate() === "today").length
+    let todaysDate = new Date();
+    return 0;
+  }
+
+  getCountOfCompletedTask (){
+    return this.collection.filter(task => task.getCompleted() === true).length
+  }
+
   update(temporalcollection) {
-    taskMaster.getCountOfTaskInEachGroup();
-    taskMaster.updateGrouplist();
-    taskMaster.updateTasklist(temporalcollection);
+    this.getCountOfTaskInEachGroup();
+    this.updateTabsCounts()
+    this.updateGrouplist();
+    this.updateTasklist(temporalcollection);
   }
 
   isSmallScreen() {
