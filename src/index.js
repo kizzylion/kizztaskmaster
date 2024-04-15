@@ -7,18 +7,19 @@ import { renderUi } from "./renderMainUi.js";
 import { showAddGroupModal } from "./addgroup.js";
 import { renderNavUi } from "./rendernav.js";
 import { showTaskModal } from "./addTask.js";
+import {initialRender, viewAllTask, viewTaskByGroup } from "./domevents.js";
 
-const reminder = new Reminder();
 
 renderNavUi()
 renderUi()
+
+export const taskMaster = new Reminder();
 showAddGroupModal()
 showTaskModal(0)
-
-export const taskMaster = reminder
-taskMaster.update()
-
-taskMaster.mobileNavEvent()
+// taskMaster.update(taskMaster.temporalcollection)
+initialRender()
+viewAllTask()
+viewTaskByGroup()
 
 
     

@@ -1,7 +1,7 @@
 
 export function renderUi() {
   let main = document.querySelector("main");
-  main.innerHTML += `
+  main.innerHTML = `
   
     <header id="groupheader" class="flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative ">
       <div class="flex flex-col">

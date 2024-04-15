@@ -10,6 +10,7 @@ import { Group } from "./groupClass";
 import { Task } from "./noteClass";
 // import { selectoption } from "./components/selectmenu";
 // import { toggleUi } from "./components/toggle";
+import { renderCurrentDisplaying } from "./domevents";
 
 export class Reminder {
   constructor() {
@@ -36,6 +37,8 @@ export class Reminder {
       new Group("Personal", "Personal", "bg-blue-500"),
       new Group("Work", "Work", "bg-green-500"),
     ];
+    this.temporalcollection; // used to hold tasks when sorting by date or priority
+    this.currentGroupDisplaying = "all"; // use this to save the index of the current group displaying.
   }
 
   //add a default  group to the groups
@@ -47,12 +50,12 @@ export class Reminder {
   }
 
   getNotesByTag(tag) {
-    return this.collection.filter((task) => task.getTag() === tag);
+    return this.displayReminder().filter((task) => task.getTag() === tag);
   }
 
   //returns an array of all notes in a group
   getNotesByGroup(groupid) {
-    return this.collection.filter((note) => note.getGroupid() === groupid);
+    return this.displayReminder().filter((note) => note.getGroupid() === groupid);
   }
 
   //adds a new group to the collection
@@ -63,10 +66,14 @@ export class Reminder {
 
   //gets a specific group by its name
   getTaskByName(groupname) {
-    return this.collection.find((group) => group.getGroupname() === groupname);
+    return this.collection.find((task) => task.getGroupname() === groupname);
   }
   getGroupByID(taskid) {
     return this.groups.find((group) => group.getGroupname() === taskid);
+  }
+
+  getGroupByIndex(index){
+    return this.groups[index];
   }
 
   getGroupByPosition(taskid) {
@@ -150,18 +157,18 @@ export class Reminder {
     });
   }
 
-  updateTasklist() {
+  updateTasklist(temporalcollection) {
     let taskContainer = document.getElementById("tasklist");
     taskContainer.innerHTML = "";
-    console.log(this.collection);
-
-    if (this.collection.length === 0) {
+    
+    console.log(temporalcollection)
+    if(!temporalcollection.length) {
       taskContainer.innerHTML = "";
       taskContainer.appendChild(this.noTaskUi());
       return;
     }
 
-    this.collection.forEach((task) => {
+    temporalcollection.forEach((task) => {
       taskContainer.appendChild(task.getTaskHTML());
     });
 
@@ -171,9 +178,22 @@ export class Reminder {
     );
     deleteButtons.forEach((button, index) => {
       button.addEventListener("click", () => {
-        this.deleteNote(this.collection[index]);
+        let noteToDelete = this.temporalcollection[index];
+        let noteToDeleteIndex = this.collection.indexOf(noteToDelete);
+        this.deleteNote(this.collection[noteToDeleteIndex]);
 
-        this.update();
+        // this.update();
+        // taskMaster.update();
+        if (this.currentGroupDisplaying === "all"){
+          this.temporalcollection = this.displayReminder();
+              
+          //update the ui 
+          renderCurrentDisplaying(0)
+        }else{
+          let currentRenderedGroup = this.groups[this.currentGroupDisplaying].groupid
+          this.temporalcollection = this.getNotesByGroup(currentRenderedGroup);
+          renderCurrentDisplaying(this.currentGroupDisplaying)
+        }
       });
     });
 
@@ -182,8 +202,10 @@ export class Reminder {
 
     editButtons.forEach((button, index) => {
       button.addEventListener("click", () => {
-        this.editTaskModal(this.collection[index]);
-        console.log(index);
+        let noteToEdit = this.temporalcollection[index];
+        let noteToEditIndex = this.collection.indexOf(noteToEdit);
+        this.editTaskModal(this.collection[noteToEditIndex]);
+        console.log(noteToEditIndex);
       });
     });
   }
@@ -247,9 +269,20 @@ export class Reminder {
       );
 
       updateBtn.removeEventListener("click", addTask);
-
+      
+      
+      if (this.currentGroupDisplaying === "all"){
+        this.temporalcollection = this.displayReminder();
+            
+        //update the ui 
+        renderCurrentDisplaying(0)
+      }else{
+        let currentRenderedGroup = this.groups[this.currentGroupDisplaying].groupid
+        taskMaster.temporalcollection = this.getNotesByGroup(currentRenderedGroup);
+        renderCurrentDisplaying(this.currentGroupDisplaying)
+      }
+      
       closeModal();
-      taskMaster.update();
     });
   }
 
@@ -260,14 +293,13 @@ export class Reminder {
   getCountOfTaskInEachGroup() {
     this.groups.forEach((group) => {
       group.calculateTaskCount(this.collection);
-      console.log(`${group.getGroupname()}: `, group.taskCount);
     });
   }
 
-  update() {
+  update(temporalcollection) {
     taskMaster.getCountOfTaskInEachGroup();
     taskMaster.updateGrouplist();
-    taskMaster.updateTasklist();
+    taskMaster.updateTasklist(temporalcollection);
   }
 
   isSmallScreen() {
@@ -308,13 +340,10 @@ export class Reminder {
 
   mobileNavEvent() {
     if (this.isSmallScreen) {
-      let tabs = document.querySelectorAll('[data-id="tab"]');
      
       let backBtn = document.getElementById("backbtn");
 
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", this.hideNavInSmallScreen);
-      });
+      this.hideNavInSmallScreen()
 
       backBtn.addEventListener("click", this.showNavInSmallScreen);
     } else return

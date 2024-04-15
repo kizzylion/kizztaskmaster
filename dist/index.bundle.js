@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 836:
+/***/ 252:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -235,7 +235,164 @@ var Task = /*#__PURE__*/function () {
   }]);
   return Task;
 }();
+;// CONCATENATED MODULE: ./src/addgroup.js
+
+
+
+
+var selectedColor;
+function addGroupModal() {
+  var GroupModalElement = document.getElementById("GroupModalElement");
+  addGroupModalUi();
+  groupIconColor();
+  GroupModalElement.classList.remove("hidden");
+  var addGroupBtn = document.getElementById("addgroupbtn");
+  var closeGroupModal = document.getElementById("closegroupmodal");
+  addGroupBtn.addEventListener("click", addGroup);
+  closeGroupModal.addEventListener("click", function () {
+    var GroupModalElement = document.querySelector("#GroupModalElement");
+    GroupModalElement.classList.add("hidden");
+    GroupModalElement.innerHTML = "";
+  });
+}
+
+// const groupIcon = document.getElementById("groupIcon");
+var colorPickerMenu = document.getElementById("colorPickerMenu");
+function addGroupModalUi() {
+  return document.querySelector("#GroupModalElement").innerHTML = "\n    \n    <!--\n      Background backdrop, show/hide based on modal state.\n  \n      Entering: \"ease-out duration-300\"\n        From: \"opacity-0\"\n        To: \"opacity-100\"\n      Leaving: \"ease-in duration-200\"\n        From: \"opacity-100\"\n        To: \"opacity-0\"\n    -->\n    <div class=\"fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity\"></div>\n  \n    <div class=\"fixed inset-0 z-10 w-screen overflow-y-auto\">\n      <div class=\"flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0\">\n        <!--\n          Modal panel, show/hide based on modal state.\n  \n          Entering: \"ease-out duration-300\"\n            From: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n            To: \"opacity-100 translate-y-0 sm:scale-100\"\n          Leaving: \"ease-in duration-200\"\n            From: \"opacity-100 translate-y-0 sm:scale-100\"\n            To: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n        -->\n        <div class=\"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg\">\n          <div class=\"bg-white dark:bg-gray-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4\">\n            <div class=\"sm:flex sm:items-start\">\n  \n              <div class=\"mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full\">\n                \n                <h3 class=\" font-bold leading-6 text-center text-gray-700 dark:text-gray-50\" id=\"modal-title\">Add New Group</h3>\n                \n                <div class=\"antialiased mt-2\">\n                  \n                  <!-- select color -->\n                  <div class=\"max-w-sm mx-auto py-8\">\n                    <div class=\"mb-5\">\n                      <div class=\"flex flex-col items-center w-full\">\n                        <div class=\"w-full flex flex-col bg-gray-50 dark:bg-gray-800 rounded-md shadow-sm p-4\">\n                          <span id=\"groupIcon\" class=\"p-2 grid place-content-center rounded-full w-16 h-16 mx-auto mb-4\"><i class=\"bi bi-list-ul text-white text-3xl m-auto\"></i></span>\n                          <input id=\"groupName\" type=\"text\" placeholder=\"Enter Group Name\"  class=\"appearance-none text-center w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\">\n                          <!-- Group icon -->\n                        </div>\n                        <div class=\"relative mt-8\">\n                          <div class=\"flex flex-wrap  p-4 bg-gray-50 dark:bg-gray-800 w-full\" id=\"colorOptions\">\n                            <!-- Color options will be populated dynamically using JavaScript -->\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n                \n                \n                \n\n              </div>\n            </div>\n          </div>\n          <div class=\"bg-gray-50 dark:bg-gray-950 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6\">\n            <button id=\"addgroupbtn\" type=\"button\" class=\"inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto\">Add Group</button>\n            <button id=\"closegroupmodal\" type=\"button\" class=\"mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
+}
+
+// Populate color options
+function addColorOptions() {
+  var colorOptions = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500", "bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-gray-500", "bg-lime-500", "bg-teal-500"];
+  var groupIcon = document.getElementById("groupIcon");
+  selectedColor = colorOptions[0];
+  var formerColor = colorOptions[0];
+  var colorOptionsContainer = document.getElementById("colorOptions");
+  colorOptions.forEach(function (color) {
+    var colorDiv = document.createElement("div");
+    colorDiv.innerHTML = "\n     <div class=\"".concat(color, " h-8 w-8 cursor-pointer rounded-full \"></div>\n    ");
+    colorDiv.classList.add("p-1", "cursor-pointer", "rounded-full", "hover:bg-gray-300", "dark:hover:bg-gray-600", "transition-colors", "color-tab");
+    colorOptionsContainer.appendChild(colorDiv);
+  });
+  var colorPicker = document.querySelectorAll(".color-tab");
+  colorPicker.forEach(function (color, index) {
+    color.addEventListener("click", function (event) {
+      groupIcon.classList.remove(formerColor);
+      selectedColor = colorOptions[index];
+      setActiveColor(color);
+      console.log(groupIcon);
+      console.log("selectedColor = ".concat(selectedColor));
+      groupIcon.classList.add(selectedColor);
+      console.log(colorOptions[index]);
+      formerColor = selectedColor;
+    });
+  });
+  function setActiveColor(event) {
+    colorPicker.forEach(function (color) {
+      color.classList.remove("active");
+      color.classList.remove("bg-gray-500");
+    });
+    event.classList.add("active");
+    event.classList.add("bg-gray-500");
+  }
+  setActiveColor(colorPicker[0]);
+  return selectedColor;
+}
+function groupIconColor() {
+  var groupIcon = document.getElementById("groupIcon");
+  if (!groupIcon) {
+    return;
+  }
+  var selectedColor = addColorOptions();
+  groupIcon.classList.add(selectedColor);
+}
+function showAddGroupModal() {
+  var newGroupElement = document.querySelectorAll('[data-element="newgroup"]');
+  newGroupElement.forEach(function (element) {
+    element.addEventListener("click", addGroupModal);
+  });
+}
+function addGroup() {
+  var groupName = document.getElementById("groupName").value;
+  console.log(selectedColor);
+  if (!groupName) {
+    alert("Please enter group name");
+    return;
+  }
+  if (taskMaster.groups.some(function (group) {
+    return group.groupname.toLowerCase() === groupName.toLowerCase();
+  })) {
+    alert("This Group already exists");
+    return;
+  }
+  taskMaster.addGroup(generateGroupID(), groupName, selectedColor);
+  var GroupModalElement = document.getElementById("GroupModalElement");
+  taskMaster.updateGrouplist();
+  if (GroupModalElement) {
+    GroupModalElement.innerHTML = "";
+    GroupModalElement.classList.add("hidden");
+  }
+  showAddGroupModal();
+}
+function generateGroupID() {
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  var groupId = '';
+  for (var i = 0; i < 6; i++) {
+    groupId += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return groupId;
+}
+;// CONCATENATED MODULE: ./src/domevents.js
+
+
+
+
+function initialRender() {
+  taskMaster.temporalcollection = taskMaster.displayReminder();
+  taskMaster.mobileNavEvent();
+  taskMaster.update(taskMaster.temporalcollection);
+  showTaskModal(0);
+  showAddGroupModal();
+  viewTaskByGroup();
+  viewAllTask();
+}
+function viewAllTask() {
+  var viewAllTaskBtn = document.getElementById("allTab");
+  viewAllTaskBtn.addEventListener("click", function () {
+    taskMaster.currentGroupDisplaying = "all";
+    taskMaster.temporalcollection = taskMaster.displayReminder();
+
+    //update the ui 
+    renderCurrentDisplaying(0);
+  });
+}
+function viewTaskByGroup() {
+  var taskGroups = document.getElementById("taskgroups");
+  var groupsBtn = taskGroups.querySelectorAll(".group");
+  groupsBtn.forEach(function (group, index) {
+    group.addEventListener('click', function (e) {
+      var groupId = group.getAttribute('data-groupid');
+      taskMaster.currentGroupDisplaying = index;
+      taskMaster.temporalcollection = taskMaster.getNotesByGroup(groupId);
+
+      // update the UI with new
+      renderCurrentDisplaying(taskMaster.currentGroupDisplaying);
+    });
+  });
+}
+function renderCurrentDisplaying(CurrentDisplayingIndex) {
+  taskMaster.mobileNavEvent();
+  console.log(taskMaster.temporalcollection);
+  taskMaster.update(taskMaster.temporalcollection);
+  showTaskModal(CurrentDisplayingIndex);
+  showAddGroupModal();
+  viewTaskByGroup();
+  viewAllTask();
+}
 ;// CONCATENATED MODULE: ./src/addTask.js
+
 
 
 
@@ -338,7 +495,17 @@ function addTask() {
 
   // Add task to collection
   taskMaster.collection.push(new Task(forminfo.name, forminfo.note, forminfo.duedate, forminfo.tag, forminfo.priority, groupId));
-  taskMaster.update();
+  // taskMaster.update();
+  if (taskMaster.currentGroupDisplaying === "all") {
+    taskMaster.temporalcollection = taskMaster.displayReminder();
+
+    //update the ui 
+    renderCurrentDisplaying(0);
+  } else {
+    var currentRenderedGroup = taskMaster.groups[taskMaster.currentGroupDisplaying].groupid;
+    taskMaster.temporalcollection = taskMaster.getNotesByGroup(currentRenderedGroup);
+    renderCurrentDisplaying(taskMaster.currentGroupDisplaying);
+  }
   closeModal();
 }
 function getSelectedPriority() {
@@ -465,7 +632,7 @@ var Group = /*#__PURE__*/function () {
   }, {
     key: "getGroupListHTML",
     value: function getGroupListHTML() {
-      return "\n    <li class=\"group cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ".concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.taskCount, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
+      return "\n    <li data-groupid=\"".concat(this.groupid, "\" class=\"group  cursor-pointer flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n      <span class=\"p-2 grid place-content-center ").concat(this.groupcolor, " rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n      <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n        <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">").concat(this.groupname, "</h4>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">").concat(this.taskCount, "</p>\n        <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n      </span>\n    </li>\n    ");
     }
   }, {
     key: "calculateTaskCount",
@@ -503,6 +670,8 @@ var Reminder = /*#__PURE__*/function () {
     reminder_classCallCheck(this, Reminder);
     this.collection = [new Task("Pay Water Bill", "Pay utility bill for water bill", "2022-05-27", "", "low", "General"), new Task("Pay Electricity Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
     this.groups = [new Group("General", "General", "bg-red-500"), new Group("Personal", "Personal", "bg-blue-500"), new Group("Work", "Work", "bg-green-500")];
+    this.temporalcollection; // used to hold tasks when sorting by date or priority
+    this.currentGroupDisplaying = "all"; // use this to save the index of the current group displaying.
   }
 
   //add a default  group to the groups
@@ -514,7 +683,7 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "getNotesByTag",
     value: function getNotesByTag(tag) {
-      return this.collection.filter(function (task) {
+      return this.displayReminder().filter(function (task) {
         return task.getTag() === tag;
       });
     }
@@ -523,7 +692,7 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "getNotesByGroup",
     value: function getNotesByGroup(groupid) {
-      return this.collection.filter(function (note) {
+      return this.displayReminder().filter(function (note) {
         return note.getGroupid() === groupid;
       });
     }
@@ -540,8 +709,8 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "getTaskByName",
     value: function getTaskByName(groupname) {
-      return this.collection.find(function (group) {
-        return group.getGroupname() === groupname;
+      return this.collection.find(function (task) {
+        return task.getGroupname() === groupname;
       });
     }
   }, {
@@ -550,6 +719,11 @@ var Reminder = /*#__PURE__*/function () {
       return this.groups.find(function (group) {
         return group.getGroupname() === taskid;
       });
+    }
+  }, {
+    key: "getGroupByIndex",
+    value: function getGroupByIndex(index) {
+      return this.groups[index];
     }
   }, {
     key: "getGroupByPosition",
@@ -649,17 +823,17 @@ var Reminder = /*#__PURE__*/function () {
     }
   }, {
     key: "updateTasklist",
-    value: function updateTasklist() {
+    value: function updateTasklist(temporalcollection) {
       var _this = this;
       var taskContainer = document.getElementById("tasklist");
       taskContainer.innerHTML = "";
-      console.log(this.collection);
-      if (this.collection.length === 0) {
+      console.log(temporalcollection);
+      if (!temporalcollection.length) {
         taskContainer.innerHTML = "";
         taskContainer.appendChild(this.noTaskUi());
         return;
       }
-      this.collection.forEach(function (task) {
+      temporalcollection.forEach(function (task) {
         taskContainer.appendChild(task.getTaskHTML());
       });
 
@@ -667,8 +841,22 @@ var Reminder = /*#__PURE__*/function () {
       var deleteButtons = document.querySelectorAll('[data-btn="deletetaskbtn"]');
       deleteButtons.forEach(function (button, index) {
         button.addEventListener("click", function () {
-          _this.deleteNote(_this.collection[index]);
-          _this.update();
+          var noteToDelete = _this.temporalcollection[index];
+          var noteToDeleteIndex = _this.collection.indexOf(noteToDelete);
+          _this.deleteNote(_this.collection[noteToDeleteIndex]);
+
+          // this.update();
+          // taskMaster.update();
+          if (_this.currentGroupDisplaying === "all") {
+            _this.temporalcollection = _this.displayReminder();
+
+            //update the ui 
+            renderCurrentDisplaying(0);
+          } else {
+            var currentRenderedGroup = _this.groups[_this.currentGroupDisplaying].groupid;
+            _this.temporalcollection = _this.getNotesByGroup(currentRenderedGroup);
+            renderCurrentDisplaying(_this.currentGroupDisplaying);
+          }
         });
       });
 
@@ -676,14 +864,17 @@ var Reminder = /*#__PURE__*/function () {
       var editButtons = document.querySelectorAll('[data-btn="edittaskbtn"]');
       editButtons.forEach(function (button, index) {
         button.addEventListener("click", function () {
-          _this.editTaskModal(_this.collection[index]);
-          console.log(index);
+          var noteToEdit = _this.temporalcollection[index];
+          var noteToEditIndex = _this.collection.indexOf(noteToEdit);
+          _this.editTaskModal(_this.collection[noteToEditIndex]);
+          console.log(noteToEditIndex);
         });
       });
     }
   }, {
     key: "editTaskModal",
     value: function editTaskModal(task) {
+      var _this2 = this;
       // get the group object where this task belong
       var groupPosition = this.getGroupByPosition(task.getGroupid());
       var group = this.groups[groupPosition];
@@ -724,8 +915,17 @@ var Reminder = /*#__PURE__*/function () {
         var selectedid = selectedoption();
         taskMaster.editTask(task, formInfo.name, formInfo.note, formInfo.duedate, formInfo.tag, formInfo.priority, selectedid);
         updateBtn.removeEventListener("click", addTask);
+        if (_this2.currentGroupDisplaying === "all") {
+          _this2.temporalcollection = _this2.displayReminder();
+
+          //update the ui 
+          renderCurrentDisplaying(0);
+        } else {
+          var currentRenderedGroup = _this2.groups[_this2.currentGroupDisplaying].groupid;
+          taskMaster.temporalcollection = _this2.getNotesByGroup(currentRenderedGroup);
+          renderCurrentDisplaying(_this2.currentGroupDisplaying);
+        }
         closeModal();
-        taskMaster.update();
       });
     }
   }, {
@@ -736,18 +936,17 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "getCountOfTaskInEachGroup",
     value: function getCountOfTaskInEachGroup() {
-      var _this2 = this;
+      var _this3 = this;
       this.groups.forEach(function (group) {
-        group.calculateTaskCount(_this2.collection);
-        console.log("".concat(group.getGroupname(), ": "), group.taskCount);
+        group.calculateTaskCount(_this3.collection);
       });
     }
   }, {
     key: "update",
-    value: function update() {
+    value: function update(temporalcollection) {
       taskMaster.getCountOfTaskInEachGroup();
       taskMaster.updateGrouplist();
-      taskMaster.updateTasklist();
+      taskMaster.updateTasklist(temporalcollection);
     }
   }, {
     key: "isSmallScreen",
@@ -792,13 +991,9 @@ var Reminder = /*#__PURE__*/function () {
   }, {
     key: "mobileNavEvent",
     value: function mobileNavEvent() {
-      var _this3 = this;
       if (this.isSmallScreen) {
-        var tabs = document.querySelectorAll('[data-id="tab"]');
         var backBtn = document.getElementById("backbtn");
-        tabs.forEach(function (tab) {
-          tab.addEventListener("click", _this3.hideNavInSmallScreen);
-        });
+        this.hideNavInSmallScreen();
         backBtn.addEventListener("click", this.showNavInSmallScreen);
       } else return;
     }
@@ -808,120 +1003,11 @@ var Reminder = /*#__PURE__*/function () {
 ;// CONCATENATED MODULE: ./src/renderMainUi.js
 function renderUi() {
   var main = document.querySelector("main");
-  main.innerHTML += "\n  \n    <header id=\"groupheader\" class=\"flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative \">\n      <div class=\"flex flex-col\">\n        <div class=\"flex items-center  align-middle\">\n          <span id=\"backbtn\" class=\"md:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto\"><i class=\"bi bi-chevron-left mr-2\"></i></span>\n          <span id=\"editgroupbtn\" class=\"text-base text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer font-medium ml-auto\"><i class=\"bi bi-pen mr-2\"></i>Edit</span>\n          <span id=\"deletegroupbtn\" class=\"text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4\"><i class=\"bi bi-trash3 mr-2 text-red-500 hover:text-red-600\"></i>Delete Group</span>\n        </div>\n        <div id=\"groupdescription\" class=\"flex py-4 lg:py-4\">\n          <h1 id=\"groupname\" class=\"text-3xl font-bold text-red-500 dark:text-red-400 mr-auto\">All</h1>\n          <p id=\"grouplength\" class=\"text-3xl font-bold text-red-500 dark:text-red-500\">0</p>\n        </div>\n      </div>\n      <div id=\"groupdescription2\" class=\"flex py-2 lg:py-2 text-xs \">\n        <span>6  Completed</span> <span class=\"ml-1 text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">\u2022 Clear</span> <span class=\"ml-auto  text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">Hide</span>\n      </div>\n    </header>\n    <ul id=\"tasklist\" class=\"flex flex-col py-0  lg:pr-6 h-full overflow-auto px-5 lg:px-4\">\n      <!-- Task List -->\n\n      \n      <div id=\"no-tasks\" class=\"hidden flex-col w-full text-center mt-16 justify-items-center\">\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-medium\">No tasks found</p>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-normal\">Add a task to get started</p>\n      </div>\n\n      <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n      <div>\n        <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n      </div>\n        <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n          <div class=\"flex gap-x-2\">\n            <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">{title}</h3>\n            <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n          </div>\n          <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">{description}</p>\n          <div class=\"flex\">\n            <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: {date}</span>\n            <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">{tag}</span>\n            <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n            <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n        \n          </div>\n\n        </div>\n\n      </div>\n      \n    </ul>\n    <footer id=\"groupfooter\" class=\"flex px-5 lg:px-4 py-4  lg:pr-6 bg-gray-50 dark:bg-neutral-900 dark:md:bg-gray-900\">\n      <div data-element=\"newtask\" class=\" text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n    </footer>\n    ";
-}
-;// CONCATENATED MODULE: ./src/addgroup.js
-
-
-
-
-var selectedColor;
-function addGroupModal() {
-  var GroupModalElement = document.getElementById("GroupModalElement");
-  addGroupModalUi();
-  groupIconColor();
-  GroupModalElement.classList.remove("hidden");
-  var addGroupBtn = document.getElementById("addgroupbtn");
-  var closeGroupModal = document.getElementById("closegroupmodal");
-  addGroupBtn.addEventListener("click", addGroup);
-  closeGroupModal.addEventListener("click", function () {
-    var GroupModalElement = document.querySelector("#GroupModalElement");
-    GroupModalElement.classList.add("hidden");
-    GroupModalElement.innerHTML = "";
-  });
-}
-
-// const groupIcon = document.getElementById("groupIcon");
-var colorPickerMenu = document.getElementById("colorPickerMenu");
-function addGroupModalUi() {
-  return document.querySelector("#GroupModalElement").innerHTML = "\n    \n    <!--\n      Background backdrop, show/hide based on modal state.\n  \n      Entering: \"ease-out duration-300\"\n        From: \"opacity-0\"\n        To: \"opacity-100\"\n      Leaving: \"ease-in duration-200\"\n        From: \"opacity-100\"\n        To: \"opacity-0\"\n    -->\n    <div class=\"fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity\"></div>\n  \n    <div class=\"fixed inset-0 z-10 w-screen overflow-y-auto\">\n      <div class=\"flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0\">\n        <!--\n          Modal panel, show/hide based on modal state.\n  \n          Entering: \"ease-out duration-300\"\n            From: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n            To: \"opacity-100 translate-y-0 sm:scale-100\"\n          Leaving: \"ease-in duration-200\"\n            From: \"opacity-100 translate-y-0 sm:scale-100\"\n            To: \"opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95\"\n        -->\n        <div class=\"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg\">\n          <div class=\"bg-white dark:bg-gray-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4\">\n            <div class=\"sm:flex sm:items-start\">\n  \n              <div class=\"mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full\">\n                \n                <h3 class=\" font-bold leading-6 text-center text-gray-700 dark:text-gray-50\" id=\"modal-title\">Add New Group</h3>\n                \n                <div class=\"antialiased mt-2\">\n                  \n                  <!-- select color -->\n                  <div class=\"max-w-sm mx-auto py-8\">\n                    <div class=\"mb-5\">\n                      <div class=\"flex flex-col items-center w-full\">\n                        <div class=\"w-full flex flex-col bg-gray-50 dark:bg-gray-800 rounded-md shadow-sm p-4\">\n                          <span id=\"groupIcon\" class=\"p-2 grid place-content-center rounded-full w-16 h-16 mx-auto mb-4\"><i class=\"bi bi-list-ul text-white text-3xl m-auto\"></i></span>\n                          <input id=\"groupName\" type=\"text\" placeholder=\"Enter Group Name\"  class=\"appearance-none text-center w-full rounded-md border-0 text-xl py-3 px-8 text-gray-900 dark:text-gray-50 dark:bg-gray-800 dark:ring-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none required\">\n                          <!-- Group icon -->\n                        </div>\n                        <div class=\"relative mt-8\">\n                          <div class=\"flex flex-wrap  p-4 bg-gray-50 dark:bg-gray-800 w-full\" id=\"colorOptions\">\n                            <!-- Color options will be populated dynamically using JavaScript -->\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n                \n                \n                \n\n              </div>\n            </div>\n          </div>\n          <div class=\"bg-gray-50 dark:bg-gray-950 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6\">\n            <button id=\"addgroupbtn\" type=\"button\" class=\"inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto\">Add Group</button>\n            <button id=\"closegroupmodal\" type=\"button\" class=\"mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
-}
-
-// Populate color options
-function addColorOptions() {
-  var colorOptions = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500", "bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-gray-500", "bg-lime-500", "bg-teal-500"];
-  var groupIcon = document.getElementById("groupIcon");
-  selectedColor = colorOptions[0];
-  var formerColor = colorOptions[0];
-  var colorOptionsContainer = document.getElementById("colorOptions");
-  colorOptions.forEach(function (color) {
-    var colorDiv = document.createElement("div");
-    colorDiv.innerHTML = "\n     <div class=\"".concat(color, " h-8 w-8 cursor-pointer rounded-full \"></div>\n    ");
-    colorDiv.classList.add("p-1", "cursor-pointer", "rounded-full", "hover:bg-gray-300", "dark:hover:bg-gray-600", "transition-colors", "color-tab");
-    colorOptionsContainer.appendChild(colorDiv);
-  });
-  var colorPicker = document.querySelectorAll(".color-tab");
-  colorPicker.forEach(function (color, index) {
-    color.addEventListener("click", function (event) {
-      groupIcon.classList.remove(formerColor);
-      selectedColor = colorOptions[index];
-      setActiveColor(color);
-      console.log(groupIcon);
-      console.log("selectedColor = ".concat(selectedColor));
-      groupIcon.classList.add(selectedColor);
-      console.log(colorOptions[index]);
-      formerColor = selectedColor;
-    });
-  });
-  function setActiveColor(event) {
-    colorPicker.forEach(function (color) {
-      color.classList.remove("active");
-      color.classList.remove("bg-gray-500");
-    });
-    event.classList.add("active");
-    event.classList.add("bg-gray-500");
-  }
-  setActiveColor(colorPicker[0]);
-  return selectedColor;
-}
-function groupIconColor() {
-  var groupIcon = document.getElementById("groupIcon");
-  if (!groupIcon) {
-    return;
-  }
-  var selectedColor = addColorOptions();
-  groupIcon.classList.add(selectedColor);
-}
-function showAddGroupModal() {
-  var newGroupElement = document.querySelectorAll('[data-element="newgroup"]');
-  newGroupElement.forEach(function (element) {
-    element.addEventListener("click", addGroupModal);
-  });
-}
-function addGroup() {
-  var groupName = document.getElementById("groupName").value;
-  console.log(selectedColor);
-  if (!groupName) {
-    alert("Please enter group name");
-    return;
-  }
-  if (taskMaster.groups.some(function (group) {
-    return group.groupname.toLowerCase() === groupName.toLowerCase();
-  })) {
-    alert("This Group already exists");
-    return;
-  }
-  taskMaster.addGroup(generateGroupID(), groupName, selectedColor);
-  var GroupModalElement = document.getElementById("GroupModalElement");
-  taskMaster.updateGrouplist();
-  if (GroupModalElement) {
-    GroupModalElement.innerHTML = "";
-    GroupModalElement.classList.add("hidden");
-  }
-  showAddGroupModal();
-}
-function generateGroupID() {
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  var groupId = '';
-  for (var i = 0; i < 6; i++) {
-    groupId += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return groupId;
+  main.innerHTML = "\n  \n    <header id=\"groupheader\" class=\"flex flex-col px-[1.25rem] py-4  lg:pr-6 bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 px-5 lg:px-4 border-b border-gray-100 dark:border-gray-800 pb-0 relative \">\n      <div class=\"flex flex-col\">\n        <div class=\"flex items-center  align-middle\">\n          <span id=\"backbtn\" class=\"md:hidden text-[1.5rem] text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 cursor-pointer font-bold mr-auto\"><i class=\"bi bi-chevron-left mr-2\"></i></span>\n          <span id=\"editgroupbtn\" class=\"text-base text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer font-medium ml-auto\"><i class=\"bi bi-pen mr-2\"></i>Edit</span>\n          <span id=\"deletegroupbtn\" class=\"text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4\"><i class=\"bi bi-trash3 mr-2 text-red-500 hover:text-red-600\"></i>Delete Group</span>\n        </div>\n        <div id=\"groupdescription\" class=\"flex py-4 lg:py-4\">\n          <h1 id=\"groupname\" class=\"text-3xl font-bold text-red-500 dark:text-red-400 mr-auto\">All</h1>\n          <p id=\"grouplength\" class=\"text-3xl font-bold text-red-500 dark:text-red-500\">0</p>\n        </div>\n      </div>\n      <div id=\"groupdescription2\" class=\"flex py-2 lg:py-2 text-xs \">\n        <span>6  Completed</span> <span class=\"ml-1 text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">\u2022 Clear</span> <span class=\"ml-auto  text-red-500  hover:text-red-600 dark:text-red-500 dark:hover:text-red-600 cursor-pointer font-medium\">Hide</span>\n      </div>\n    </header>\n    <ul id=\"tasklist\" class=\"flex flex-col py-0  lg:pr-6 h-full overflow-auto px-5 lg:px-4\">\n      <!-- Task List -->\n\n      \n      <div id=\"no-tasks\" class=\"hidden flex-col w-full text-center mt-16 justify-items-center\">\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-medium\">No tasks found</p>\n        <p class=\"text-base text-gray-400 dark:text-gray-400 font-normal\">Add a task to get started</p>\n      </div>\n\n      <div class=\"flex gap-x-4  lg:gap-x-3 mt-4\">\n      <div>\n        <input id=\"Completed\" type=\"checkbox\" name=\"Completed\">\n      </div>\n        <div class=\"flex flex-col w-full border-b border-gray-200 dark:border-gray-800 pb-2\">\n          <div class=\"flex gap-x-2\">\n            <h3 class=\"mr-auto text-gray-900 dark:text-gray-50 mb-2 text-xl\">{title}</h3>\n            <span class=\"cursor-pointer\"><i class=\"bi bi-flag-fill text-green-600 dark:text-green-500\"></i></span>\n          </div>\n          <p class=\"text-gray-500 dark:text-gray-500 text-sm lg:text-sm mb-2\">{description}</p>\n          <div class=\"flex\">\n            <span class=\"text-gray-500 dark:text-gray-400 text-sm mr-2\">Due: {date}</span>\n            <span class=\"text-blue-500 dark:text-blue-400 text-sm mr-auto\">{tag}</span>\n            <span id=\"edittaskbtn\" class=\"inline-block text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-400 cursor-pointer  ml-auto\"><i class=\"bi bi-pen mr-2\"></i></span>\n            <span id=\"deletetaskbtn\" class=\" text-gray-500 hover:text-red-600 dark:gray-red-400 dark:hover:text-red-600 cursor-pointer ml-4\"><i class=\"bi bi-trash3 text-red-500 hover:text-red-600\"></i></span>\n        \n          </div>\n\n        </div>\n\n      </div>\n      \n    </ul>\n    <footer id=\"groupfooter\" class=\"flex px-5 lg:px-4 py-4  lg:pr-6 bg-gray-50 dark:bg-neutral-900 dark:md:bg-gray-900\">\n      <div data-element=\"newtask\" class=\" text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer\"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n    </footer>\n    ";
 }
 ;// CONCATENATED MODULE: ./src/rendernav.js
 function renderNavUi() {
-  return document.body.innerHTML = "\n    <div id=\"main-container\" class=\"flex  text-light-text-tertiary dark:text-dark-text-tertiary h-full w-full\">\n    <nav id=\"Navigator\" class=\"flex flex-col bg-gray-100 dark:bg-neutral-950 dark:md:bg-gray-800 w-full sm:w-[45%] md:w-[46%] lg:w-[37%] xl:w-[21%] h-full border-r border-gray-200 dark:border-stone-950\">\n    <header class=\"flex p-5 lg:p-4 border-b-2 border-gray-200 dark:border-stone-800\">\n      <h1 class=\"text-2xl font-bold text-light-text-primary dark:text-dark-text-primary\">\n        KizzTask<span class=\"text-light-text-brand-tertiary dark:text-dark-text-brand-tertiary\">Master</span>\n      </h1>\n      <button class=\"ml-auto px-1 py-0 hover:bg-gray-200 dark:hover:bg-gray-800 dark:hover:bg-dark-bg-secondary-hover\" id=\"theme-toggle\"></button>\n    </header>\n    <section class=\"flex flex-col h-full overflow-auto lg:overflow-hidden\">\n      <div id=\"dashboard\" class=\"w-full grid grid-cols-2 p-5  sm:p-4 lg:pr-2.5 gap-4 lg:gap-2 mt-6\">\n        <div data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600  rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">1</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">All</h4>\n        </div>\n\n        \n        <div data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">0</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Today</h4>\n        </div>\n\n        \n        <div data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">3</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Priority</h4>\n        </div>\n\n        \n        <div data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">2</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Completed</h4>\n        </div>\n\n      </div>\n      \n      <div id=\"groupdiv\" class=\" flex flex-col h-full lg:overflow-auto lg:hover:overflow-scroll relative\">\n        <header class=\"text-gray-900 dark:text-white md:dark:text-gray-300 mt-0 pb-2 font-bold px-5 text-[140%] lg:text-xs md:lg:pb-2 lg:pt-4 dark:lg:text-gray-500 lg:sticky top-0 bg-gray-100 dark:bg-neutral-950 dark:md:bg-gray-800  lg:border-b lg:border-gray-200 lg:dark:border-gray-700\">My Projects</header>\n        <ul id=\"taskgroups\" class=\"px-4 py-2 flex  flex-col rounded-lg lg:pr-2.5\" >\n          <!-- Taskgroup List -->\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          \n\n        </ul>\n      </div>\n    </section>\n    <footer class=\"flex px-5 py-4 lg:px-8 lg:pr-6 bg-gray-100  dark:bg-neutral-950 dark:md:bg-gray-800  dark:bg-neutral-950 dark:md:bg-gray-800 border-t border-gray-200 dark:border-gray-700\">\n      <div data-element=\"newtask\" class=\"sm:hidden text-indigo-500 hover:text-indigo-600 cursor-pointer dark:text-indigo-400 dark:hover:text-indigo-300 font-medium \"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n      <div data-element=\"newgroup\" class=\"ml-auto text-indigo-500 dark:text-indigo-400 hover:text-indigo-600  font-medium cursor-pointer dark:hover:text-indigo-300 \"> <i class=\"bi bi-plus text-[1.25rem] mr-1 \"></i> New Group</div>\n    </footer>\n  </nav>\n  <main class=\"hidden sm:flex flex-col bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 w-full sm:w-[55%] md:w-[64%] lg:w-[63%] xl:w-[79%] h-full relative\"></main>\n  </div>\n  <div id=\"GroupModalElement\" class=\"relative z-10 hidden\" aria-labelledby=\"modal-title\" role=\"dialog\" aria-modal=\"true\"></div>\n    ";
+  return document.body.innerHTML = "\n    <div id=\"main-container\" class=\"flex  text-light-text-tertiary dark:text-dark-text-tertiary h-full w-full\">\n    <nav id=\"Navigator\" class=\"flex flex-col bg-gray-100 dark:bg-neutral-950 dark:md:bg-gray-800 w-full sm:w-[45%] md:w-[46%] lg:w-[37%] xl:w-[21%] h-full border-r border-gray-200 dark:border-stone-950\">\n    <header class=\"flex p-5 lg:p-4 border-b-2 border-gray-200 dark:border-stone-800\">\n      <h1 class=\"text-2xl font-bold text-light-text-primary dark:text-dark-text-primary\">\n        KizzTask<span class=\"text-light-text-brand-tertiary dark:text-dark-text-brand-tertiary\">Master</span>\n      </h1>\n      <button class=\"ml-auto px-1 py-0 hover:bg-gray-200 dark:hover:bg-gray-800 dark:hover:bg-dark-bg-secondary-hover\" id=\"theme-toggle\"></button>\n    </header>\n    <section class=\"flex flex-col h-full overflow-auto lg:overflow-hidden\">\n      <div id=\"dashboard\" class=\"w-full grid grid-cols-2 p-5  sm:p-4 lg:pr-2.5 gap-4 lg:gap-2 mt-6\">\n        <div id=\"allTab\" data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600  rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">1</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">All</h4>\n        </div>\n\n        \n        <div id=\"todayTab\" data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">0</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Today</h4>\n        </div>\n\n        \n        <div id=\"priorityTab\" data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">3</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Priority</h4>\n        </div>\n\n        \n        <div id=\"completedTab\" data-id=\"tab\" class=\"p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg\">\n          <div class=\"flex justify-between items-center\">\n            <span  class=\"p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-inbox-fill text-white text-xl lg:text-base m-auto\"></i></span>\n            <h3 class=\"ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 \">2</h3>\n          </div>\n          <h4 class=\"text-gray-500 dark:text-gray-400 mt-2  font-semibold text-[110%] lg:text-xs  leading-none\">Completed</h4>\n        </div>\n\n      </div>\n      \n      <div id=\"groupdiv\" class=\" flex flex-col h-full lg:overflow-auto lg:hover:overflow-scroll relative\">\n        <header class=\"text-gray-900 dark:text-white md:dark:text-gray-300 mt-0 pb-2 font-bold px-5 text-[140%] lg:text-xs md:lg:pb-2 lg:pt-4 dark:lg:text-gray-500 lg:sticky top-0 bg-gray-100 dark:bg-neutral-950 dark:md:bg-gray-800  lg:border-b lg:border-gray-200 lg:dark:border-gray-700\">My Projects</header>\n        <ul id=\"taskgroups\" class=\"px-4 py-2 flex  flex-col rounded-lg lg:pr-2.5\" >\n          <!-- Taskgroup List -->\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-red-500 dark:bg-red-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Reminder</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-orange-500 dark:bg-orange-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Home</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          </li>\n          <li class=\"group flex items-center  w-full pl-3  bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 lg:bg-gray-100 lg:dark:bg-gray-800 lg:dark:hover:bg-gray-700\">\n            <span  class=\"p-2 grid place-content-center bg-blue-500 dark:bg-blue-600 rounded-full w-8 h-8 lg:w-6 lg:h-6\"><i class=\"bi bi-list-ul text-white text-base m-auto\"></i></span>\n            <span class=\" flex w-full items-center  py-4 pr-3 lg:py-2 :pr-2 ml-3 lg:ml-2 border-b border-gray-200 dark:border-gray-700 group-last:border-0\">\n              <h4 class=\"text-base lg:text-sm text-gray-900 dark:text-gray-50 w-full h-auto align-text-bottom leading-6 \">Work</h4>\n              <p class=\"text-base text-gray-400 dark:text-gray-400 dark:text-gray-400 font-normal mr-1\">0</p>\n              <span class=\"grid ml-2 w-6 h-6 place-content-center sm:hidden\"><i class=\"bi bi-chevron-right\"></i></span>\n            </span>\n          \n\n        </ul>\n      </div>\n    </section>\n    <footer class=\"flex px-5 py-4 lg:px-8 lg:pr-6 bg-gray-100  dark:bg-neutral-950 dark:md:bg-gray-800  dark:bg-neutral-950 dark:md:bg-gray-800 border-t border-gray-200 dark:border-gray-700\">\n      <div data-element=\"newtask\" class=\"sm:hidden text-indigo-500 hover:text-indigo-600 cursor-pointer dark:text-indigo-400 dark:hover:text-indigo-300 font-medium \"> <i class=\"bi bi-plus-circle-fill text-[1.25rem] mr-1\"></i> New Task</div>\n      <div data-element=\"newgroup\" class=\"ml-auto text-indigo-500 dark:text-indigo-400 hover:text-indigo-600  font-medium cursor-pointer dark:hover:text-indigo-300 \"> <i class=\"bi bi-plus text-[1.25rem] mr-1 \"></i> New Group</div>\n    </footer>\n  </nav>\n  <main class=\"hidden sm:flex flex-col bg-gray-50 dark:bg-gray-900 dark:md:bg-gray-900 w-full sm:w-[55%] md:w-[64%] lg:w-[63%] xl:w-[79%] h-full relative\"></main>\n  </div>\n  <div id=\"GroupModalElement\" class=\"relative z-10 hidden\" aria-labelledby=\"modal-title\" role=\"dialog\" aria-modal=\"true\"></div>\n    ";
 }
 ;// CONCATENATED MODULE: ./src/index.js
 
@@ -933,14 +1019,16 @@ function renderNavUi() {
 
 
 
-var reminder = new Reminder();
+
 renderNavUi();
 renderUi();
+var taskMaster = new Reminder();
 showAddGroupModal();
 showTaskModal(0);
-var taskMaster = reminder;
-taskMaster.update();
-taskMaster.mobileNavEvent();
+// taskMaster.update(taskMaster.temporalcollection)
+initialRender();
+viewAllTask();
+viewTaskByGroup();
 
 /***/ })
 
@@ -1106,7 +1194,7 @@ taskMaster.mobileNavEvent();
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [178,656], () => (__webpack_require__(836)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [178,656], () => (__webpack_require__(252)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

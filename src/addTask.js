@@ -10,6 +10,7 @@ import { selectOptionUi } from "./components/selectmenu";
 import { selectoption } from "./components/selectmenu";
 import { toggleListbox } from "./components/selectmenu";
 import { Task } from "./noteClass";
+import { renderCurrentDisplaying } from "./domevents";
 
 let selectedid = null; //Group Selected
 let priority = null;
@@ -319,7 +320,18 @@ export function addTask() {
       groupId
     )
   );
-  taskMaster.update();
+  // taskMaster.update();
+  if (taskMaster.currentGroupDisplaying === "all"){
+    taskMaster.temporalcollection = taskMaster.displayReminder();
+        
+    //update the ui 
+    renderCurrentDisplaying(0)
+  }else{
+    let currentRenderedGroup = taskMaster.groups[taskMaster.currentGroupDisplaying].groupid
+    taskMaster.temporalcollection = taskMaster.getNotesByGroup(currentRenderedGroup);
+    renderCurrentDisplaying(taskMaster.currentGroupDisplaying)
+  }
+
   closeModal();
 }
 

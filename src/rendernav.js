@@ -12,7 +12,7 @@ export function renderNavUi(){
     </header>
     <section class="flex flex-col h-full overflow-auto lg:overflow-hidden">
       <div id="dashboard" class="w-full grid grid-cols-2 p-5  sm:p-4 lg:pr-2.5 gap-4 lg:gap-2 mt-6">
-        <div data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600  rounded-lg">
+        <div id="allTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600  rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
             <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">1</h3>
@@ -21,7 +21,7 @@ export function renderNavUi(){
         </div>
 
         
-        <div data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
+        <div id="todayTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
             <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">0</h3>
@@ -30,7 +30,7 @@ export function renderNavUi(){
         </div>
 
         
-        <div data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
+        <div id="priorityTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
             <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">3</h3>
@@ -39,7 +39,7 @@ export function renderNavUi(){
         </div>
 
         
-        <div data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
+        <div id="completedTab" data-id="tab" class="p-3 lg:p-2 bg-white dark:bg-stone-900 h dark:md:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600   rounded-lg">
           <div class="flex justify-between items-center">
             <span  class="p-1 grid place-content-center bg-gray-900 dark:bg-slate-500 rounded-full w-8 h-8 lg:w-6 lg:h-6"><i class="bi bi-inbox-fill text-white text-xl lg:text-base m-auto"></i></span>
             <h3 class="ml-auto mr-1 font-bold text-[1.75rem] lg:text-base text-light-text-primary dark:text-gray-50 md:dark:text-gray-300 ">2</h3>
