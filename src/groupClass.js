@@ -3,6 +3,7 @@ export class Group {
     this.collection = [];
     this.groupname = groupname;
     this.groupcolor = groupcolor;
+    this.groupTextColor = this.groupcolor.replace("bg", "text");
     this.groupid = groupid;
     this.taskCount = 0;
     // console.log("Group created with name: " + this.groupname);

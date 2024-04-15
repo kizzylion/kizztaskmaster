@@ -39,8 +39,22 @@ export class Reminder {
     ];
     this.temporalcollection; // used to hold tasks when sorting by date or priority
     this.currentGroupDisplaying = "all"; // use this to save the index of the current group displaying.
+    this.currentGroupDisplayingStyle = {
+      groupname : "All",
+      groupcolor : "bg-gray-500",
+    };
   }
 
+  getCurrentDisplayingStyleName(){
+    return this.currentGroupDisplayingStyle.groupname;
+  }
+  getCurrentDisplayingStyleTextColor(){
+    return this.currentGroupDisplayingStyle.groupTextColor;
+  }
+  getCurrentDisplayingStyleBackgroudColor(){
+    return this.currentGroupDisplayingStyle.groupcolor;
+  }
+  
   //add a default  group to the groups
 
   addReminder(title, message, date, tag, priority, groupid) {

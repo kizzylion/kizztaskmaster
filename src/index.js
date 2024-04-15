@@ -10,15 +10,11 @@ import { showTaskModal } from "./addTask.js";
 import {initialRender, viewAllTask, viewTaskByGroup } from "./domevents.js";
 
 
-renderNavUi()
-renderUi()
-
 export const taskMaster = new Reminder();
-showAddGroupModal()
-showTaskModal(0)
+
 // taskMaster.update(taskMaster.temporalcollection)
 initialRender()
-taskMaster.showNavInSmallScreen()
+
 
 
     

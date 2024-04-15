@@ -1,3 +1,4 @@
+import { taskMaster } from ".";
 
 export function renderUi() {
   let main = document.querySelector("main");
@@ -11,8 +12,8 @@ export function renderUi() {
           <span id="deletegroupbtn" class="text-base text-gray-500 hover:text-red-400 dark:text-gray-400 dark:gray-red-400 dark:hover:text-red-400 cursor-pointer font-medium ml-4"><i class="bi bi-trash3 mr-2 text-red-500 hover:text-red-600"></i>Delete Group</span>
         </div>
         <div id="groupdescription" class="flex py-4 lg:py-4">
-          <h1 id="groupname" class="text-3xl font-bold text-red-500 dark:text-red-400 mr-auto">All</h1>
-          <p id="grouplength" class="text-3xl font-bold text-red-500 dark:text-red-500">0</p>
+          <h1 id="groupname" class="text-3xl font-bold ${taskMaster.getCurrentDisplayingStyleTextColor()} mr-auto">${taskMaster.getCurrentDisplayingStyleName()}</h1>
+          <p id="grouplength" class="text-3xl font-bold ${taskMaster.getCurrentDisplayingStyleTextColor()}">${taskMaster.temporalcollection.length}</p>
         </div>
       </div>
       <div id="groupdescription2" class="flex py-2 lg:py-2 text-xs ">

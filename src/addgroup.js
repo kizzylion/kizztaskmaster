@@ -2,6 +2,7 @@ import { renderNavUi } from "./rendernav";
 import { renderUi } from "./renderMainUi";
 import { taskMaster } from ".";
 import { Group } from "./groupClass";
+import { initialRender } from "./domevents";
 
 
 
@@ -211,7 +212,8 @@ function addGroup() {
     GroupModalElement.classList.add("hidden")
   }
 
-  showAddGroupModal();
+  // showAddGroupModal();
+  initialRender()
   
   
 }
