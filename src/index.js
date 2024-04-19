@@ -11,9 +11,11 @@ import {initialRender, viewAllTask, viewTaskByGroup } from "./domevents.js";
 
 
 export const taskMaster = new Reminder();
+taskMaster.checkLocalStorage();
 
-// taskMaster.update(taskMaster.temporalcollection)
 initialRender()
+
+
 
 
 

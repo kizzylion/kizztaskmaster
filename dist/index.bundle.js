@@ -509,7 +509,8 @@ function getTaskFormInformation() {
   var duedate = document.getElementById("datepicker").value;
   var selectedPriority = document.querySelector('input[name="priority"]:checked');
   var priority;
-  var tag = document.getElementById("tag").value;
+  var tagData = document.getElementById("tag").value;
+  var tag = "#" + tagData;
   selectedPriority ? priority = selectedPriority.value : priority = "";
 
   // Check if any input is empty
@@ -531,6 +532,8 @@ function addTask() {
 
   // Add task to collection
   taskMaster.collection.push(new Task(forminfo.name, forminfo.note, forminfo.duedate, forminfo.tag, forminfo.priority, groupId));
+  taskMaster.populateStorage();
+
   // taskMaster.update();
   if (taskMaster.currentGroupDisplaying === "all") {
     taskMaster.temporalcollection = taskMaster.displayReminder();
@@ -705,7 +708,7 @@ function reminder_toPrimitive(t, r) { if ("object" != reminder_typeof(t) || !t) 
 var Reminder = /*#__PURE__*/function () {
   function Reminder() {
     reminder_classCallCheck(this, Reminder);
-    this.collection = [new Task("Pay Water Bill", "Pay utility bill for water bill", "2022-05-27", "", "low", "General"), new Task("Pay Electricity Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
+    this.collection = [new Task("Pay Water Bill", "Pay utility bill for water bill", "2022-05-27", "Bills", "low", "General"), new Task("Pay Electricity Bill", "Pay utility bill for electric bill", "2022-05-27", "General", "low", "General")];
     this.groups = [new Group("General", "General", "bg-red-500"), new Group("Personal", "Personal", "bg-blue-500"), new Group("Work", "Work", "bg-green-500")];
     this.temporalcollection; // used to hold tasks when sorting by date or priority
     this.currentGroupDisplaying = "all"; // use this to save the index of the current group displaying.
@@ -715,6 +718,63 @@ var Reminder = /*#__PURE__*/function () {
     };
   }
   reminder_createClass(Reminder, [{
+    key: "setCollection",
+    value: function setCollection(array) {
+      this.collection = array;
+    }
+  }, {
+    key: "checkLocalStorage",
+    value: function checkLocalStorage() {
+      if (!localStorage.getItem("taskMasterCollection")) {
+        this.populateStorage();
+      } else {
+        this.retrieveCollection();
+      }
+    }
+  }, {
+    key: "populateStorage",
+    value: function populateStorage() {
+      localStorage.setItem("taskMasterCollection", JSON.stringify(this.collection));
+      localStorage.setItem("taskMasterGroups", JSON.stringify(this.groups));
+      console.log(taskMaster.collection);
+    }
+  }, {
+    key: "retrieveCollection",
+    value: function retrieveCollection() {
+      var taskMasterGroups = localStorage.getItem("taskMasterGroups");
+      var taskMasterCollection = localStorage.getItem("taskMasterCollection");
+      if (taskMasterCollection) {
+        if (this.isJsonString(taskMasterCollection)) {
+          var tasksData = JSON.parse(taskMasterCollection);
+          var groupsData = JSON.parse(taskMasterGroups);
+          this.collection = tasksData.map(function (taskData) {
+            var task = new Task(taskData.title, taskData.message, taskData.date, taskData.tag, taskData.priority, taskData.groupid);
+            // If you have additional methods to be restored, you can do it here
+            task.completed = taskData.completed;
+            return task;
+          });
+          this.groups = groupsData.map(function (groupData) {
+            var group = new Group(groupData.groupid, groupData.groupname, groupData.groupcolor);
+            return group;
+          });
+        } else {
+          console.error("The value of 'taskMasterCollection' is not a valid JSON string.");
+          return;
+        }
+      }
+      // Rest of the code to retrieve the collection
+    }
+  }, {
+    key: "isJsonString",
+    value: function isJsonString(str) {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
+    }
+  }, {
     key: "getCurrentDisplayingStyleName",
     value: function getCurrentDisplayingStyleName() {
       return this.currentGroupDisplayingStyle.groupname;
@@ -758,7 +818,7 @@ var Reminder = /*#__PURE__*/function () {
     key: "addGroup",
     value: function addGroup(groupid, groupname, groupcolor) {
       this.groups.push(new Group(groupid, groupname, groupcolor));
-      console.log(this.groups);
+      this.populateStorage();
     }
 
     //gets a specific group by its name
@@ -785,7 +845,7 @@ var Reminder = /*#__PURE__*/function () {
     key: "getGroupByPosition",
     value: function getGroupByPosition(taskid) {
       return this.groups.indexOf(this.groups.find(function (group) {
-        return group.getGroupname() === taskid;
+        return group.getGroupid() === taskid;
       }));
       //this.groups.find((group) => group.getGroupname() === taskid);
     }
@@ -912,6 +972,7 @@ var Reminder = /*#__PURE__*/function () {
           var noteToDelete = _this.temporalcollection[index];
           var noteToDeleteIndex = _this.collection.indexOf(noteToDelete);
           _this.deleteNote(_this.collection[noteToDeleteIndex]);
+          _this.populateStorage();
 
           // this.update();
           // taskMaster.update();
@@ -934,8 +995,8 @@ var Reminder = /*#__PURE__*/function () {
         button.addEventListener("click", function () {
           var noteToEdit = _this.temporalcollection[index];
           var noteToEditIndex = _this.collection.indexOf(noteToEdit);
+          console.log(noteToEditIndex, "in collection");
           _this.editTaskModal(_this.collection[noteToEditIndex]);
-          console.log(noteToEditIndex);
         });
       });
     }
@@ -946,6 +1007,7 @@ var Reminder = /*#__PURE__*/function () {
       // get the group object where this task belong
       var groupPosition = this.getGroupByPosition(task.getGroupid());
       var group = this.groups[groupPosition];
+      console.log(groupPosition, "group position");
       addTaskModal(groupPosition);
       var title = document.getElementById("taskName");
       var notes = document.getElementById("taskNote");
@@ -984,6 +1046,7 @@ var Reminder = /*#__PURE__*/function () {
         taskMaster.editTask(task, formInfo.name, formInfo.note, formInfo.duedate, formInfo.tag, formInfo.priority, selectedid);
         updateBtn.removeEventListener("click", addTask);
         if (_this2.currentGroupDisplaying === "all") {
+          taskMaster.populateStorage();
           _this2.temporalcollection = _this2.displayReminder();
 
           //update the ui 
@@ -1005,8 +1068,9 @@ var Reminder = /*#__PURE__*/function () {
     key: "getCountOfTaskInEachGroup",
     value: function getCountOfTaskInEachGroup() {
       var _this3 = this;
+      console.log(this.groups);
       this.groups.forEach(function (group) {
-        group.calculateTaskCount(_this3.collection);
+        group.calculateTaskCount(_this3.displayReminder());
       });
     }
   }, {
@@ -1107,8 +1171,7 @@ var Reminder = /*#__PURE__*/function () {
 
 
 var taskMaster = new Reminder();
-
-// taskMaster.update(taskMaster.temporalcollection)
+taskMaster.checkLocalStorage();
 initialRender();
 
 /***/ })

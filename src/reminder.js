@@ -19,7 +19,7 @@ export class Reminder {
         "Pay Water Bill",
         "Pay utility bill for water bill",
         "2022-05-27",
-        "",
+        "Bills",
         "low",
         "General"
       ),
@@ -44,6 +44,69 @@ export class Reminder {
       groupcolor : "bg-gray-500",
     };
   }
+
+  setCollection(array){
+    this.collection = array;
+  }
+
+  checkLocalStorage(){
+    if (!localStorage.getItem("taskMasterCollection")) {
+      this.populateStorage();
+    } else {
+      this.retrieveCollection();
+    }
+  }
+
+  populateStorage() {
+    localStorage.setItem("taskMasterCollection", JSON.stringify(this.collection));
+    localStorage.setItem("taskMasterGroups", JSON.stringify(this.groups));
+    console.log(taskMaster.collection)
+  }
+
+  retrieveCollection() {
+    var taskMasterGroups = localStorage.getItem("taskMasterGroups");
+    var taskMasterCollection = localStorage.getItem("taskMasterCollection");
+    if (taskMasterCollection) {
+        if (this.isJsonString(taskMasterCollection)) {
+          const tasksData = JSON.parse(taskMasterCollection);
+          const groupsData = JSON.parse(taskMasterGroups);
+          this.collection = tasksData.map(taskData => {
+            const task = new Task(
+                taskData.title,
+                taskData.message,
+                taskData.date,
+                taskData.tag,
+                taskData.priority,
+                taskData.groupid
+            );
+            // If you have additional methods to be restored, you can do it here
+            task.completed = taskData.completed;
+            return task;
+          });
+          this.groups = groupsData.map(groupData => {
+            const group = new Group(
+              groupData.groupid,
+              groupData.groupname,
+              groupData.groupcolor
+            )
+            return group;
+          });
+        } else {
+            console.error("The value of 'taskMasterCollection' is not a valid JSON string.");
+            return;
+        }
+    }
+    // Rest of the code to retrieve the collection
+}
+
+isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   getCurrentDisplayingStyleName(){
     return this.currentGroupDisplayingStyle.groupname;
@@ -75,7 +138,7 @@ export class Reminder {
   //adds a new group to the collection
   addGroup(groupid, groupname, groupcolor) {
     this.groups.push(new Group(groupid, groupname, groupcolor));
-    console.log(this.groups);
+    this.populateStorage()
   }
 
   //gets a specific group by its name
@@ -92,7 +155,7 @@ export class Reminder {
 
   getGroupByPosition(taskid) {
     return this.groups.indexOf(
-      this.groups.find((group) => group.getGroupname() === taskid)
+      this.groups.find((group) => group.getGroupid() === taskid)
     );
     //this.groups.find((group) => group.getGroupname() === taskid);
   }
@@ -205,6 +268,7 @@ export class Reminder {
         let noteToDelete = this.temporalcollection[index];
         let noteToDeleteIndex = this.collection.indexOf(noteToDelete);
         this.deleteNote(this.collection[noteToDeleteIndex]);
+        this.populateStorage()
 
         // this.update();
         // taskMaster.update();
@@ -228,8 +292,8 @@ export class Reminder {
       button.addEventListener("click", () => {
         let noteToEdit = this.temporalcollection[index];
         let noteToEditIndex = this.collection.indexOf(noteToEdit);
+        console.log(noteToEditIndex, "in collection");
         this.editTaskModal(this.collection[noteToEditIndex]);
-        console.log(noteToEditIndex);
       });
     });
   }
@@ -238,6 +302,7 @@ export class Reminder {
     // get the group object where this task belong
     let groupPosition = this.getGroupByPosition(task.getGroupid());
     let group = this.groups[groupPosition];
+    console.log(groupPosition , "group position");
 
     addTaskModal(groupPosition);
 
@@ -296,6 +361,7 @@ export class Reminder {
       
       
       if (this.currentGroupDisplaying === "all"){
+        taskMaster.populateStorage();
         this.temporalcollection = this.displayReminder();
             
         //update the ui 
@@ -314,9 +380,10 @@ export class Reminder {
     return this.groups;
   }
 
-  getCountOfTaskInEachGroup() {
+  getCountOfTaskInEachGroup(){
+    console.log(this.groups)
     this.groups.forEach((group) => {
-      group.calculateTaskCount(this.collection);
+      group.calculateTaskCount(this.displayReminder());
     });
   }
 

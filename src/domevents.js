@@ -8,7 +8,7 @@ import { showTaskModal } from "./addTask";
 
 
 export function initialRender(){
-    
+
     taskMaster.currentGroupDisplaying = "all";
     taskMaster.currentGroupDisplayingStyle = {
         groupname : "All",

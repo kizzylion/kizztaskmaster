@@ -12,6 +12,7 @@ import { toggleListbox } from "./components/selectmenu";
 import { Task } from "./noteClass";
 import { renderCurrentDisplaying } from "./domevents";
 
+
 let selectedid = null; //Group Selected
 let priority = null;
 
@@ -291,7 +292,9 @@ export function getTaskFormInformation() {
     'input[name="priority"]:checked'
   );
   let priority;
-  const tag = document.getElementById("tag").value;
+  
+  const tagData = document.getElementById("tag").value;
+  const tag = "#" + tagData;
 
   selectedPriority ? (priority = selectedPriority.value) : (priority = "");
 
@@ -320,6 +323,9 @@ export function addTask() {
       groupId
     )
   );
+
+  taskMaster.populateStorage()
+
   // taskMaster.update();
   if (taskMaster.currentGroupDisplaying === "all"){
     taskMaster.temporalcollection = taskMaster.displayReminder();
